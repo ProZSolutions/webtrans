@@ -4,19 +4,19 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\TransportSearch */
+/* @var $searchModel app\models\VendorSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Transports';
+$this->title = 'Vendors';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="transport-index">
+<div class="vendor-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Transport', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Vendor', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -24,9 +24,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-           
-            'name',
-            'owner',
+             [
+            
+            'label' => 'Transport Name',
+            'value' => 'transport.name',
+            'format' => 'raw',
+            ],
+            
+            'vendor_code',
+            'verdor_corp',
+          
+            'time',
+       
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

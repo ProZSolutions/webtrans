@@ -4,19 +4,19 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\TransportSearch */
+/* @var $searchModel app\models\DbankSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Transports';
+$this->title = 'Dbanks';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="transport-index">
+<div class="dbank-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Transport', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Dbank', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -24,9 +24,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-           
-            'name',
-            'owner',
+            'dbank_id',
+            'driver_id',
+            'bank_name',
+            'acc_no',
+            'branch',
+            // 'ifsc',
+            // 'is_active',
+            // 'user_id',
+            // 'time',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

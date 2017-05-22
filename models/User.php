@@ -2,103 +2,127 @@
 
 namespace app\models;
 
-class User extends \yii\base\Object implements \yii\web\IdentityInterface
+use Yii;
+
+/**
+ * This is the model class for table "user".
+ *
+ * @property integer $user_id
+ * @property string $name
+ * @property string $password
+ * @property string $designation
+ * @property string $timestemap
+ * @property integer $is_active
+ *
+ * @property BillList[] $billLists
+ * @property Cdeposit[] $cdeposits
+ * @property Dbank[] $dbanks
+ * @property Driver[] $drivers
+ * @property Expiry[] $expiries
+ * @property Tbank[] $tbanks
+ * @property Vehicle[] $vehicles
+ * @property Vendor[] $vendors
+ */
+class User extends \yii\db\ActiveRecord
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
-
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
-
-
     /**
      * @inheritdoc
      */
-    public static function findIdentity($id)
+    public static function tableName()
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        return 'user';
     }
 
     /**
      * @inheritdoc
      */
-    public static function findIdentityByAccessToken($token, $type = null)
+    public function rules()
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Finds user by username
-     *
-     * @param string $username
-     * @return static|null
-     */
-    public static function findByUsername($username)
-    {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
+        return [
+            [['name', 'password'], 'required'],
+            [['designation'], 'string'],
+            [['timestemap'], 'safe'],
+            [['is_active'], 'integer'],
+            [['name', 'password'], 'string', 'max' => 27],
+        ];
     }
 
     /**
      * @inheritdoc
      */
-    public function getId()
+    public function attributeLabels()
     {
-        return $this->id;
+        return [
+            'user_id' => 'User ID',
+            'name' => 'Name',
+            'password' => 'Password',
+            'designation' => 'Designation',
+            'timestemap' => 'Timestemap',
+            'is_active' => 'Is Active',
+        ];
     }
 
     /**
-     * @inheritdoc
+     * @return \yii\db\ActiveQuery
      */
-    public function getAuthKey()
+    public function getBillLists()
     {
-        return $this->authKey;
+        return $this->hasMany(BillList::className(), ['user_id' => 'user_id']);
     }
 
     /**
-     * @inheritdoc
+     * @return \yii\db\ActiveQuery
      */
-    public function validateAuthKey($authKey)
+    public function getCdeposits()
     {
-        return $this->authKey === $authKey;
+        return $this->hasMany(Cdeposit::className(), ['user_id' => 'user_id']);
     }
 
     /**
-     * Validates password
-     *
-     * @param string $password password to validate
-     * @return bool if password provided is valid for current user
+     * @return \yii\db\ActiveQuery
      */
-    public function validatePassword($password)
+    public function getDbanks()
     {
-        return $this->password === $password;
+        return $this->hasMany(Dbank::className(), ['user_id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDrivers()
+    {
+        return $this->hasMany(Driver::className(), ['user_id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getExpiries()
+    {
+        return $this->hasMany(Expiry::className(), ['user_id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTbanks()
+    {
+        return $this->hasMany(Tbank::className(), ['user_id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getVehicles()
+    {
+        return $this->hasMany(Vehicle::className(), ['user_id' => 'user_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getVendors()
+    {
+        return $this->hasMany(Vendor::className(), ['user_id' => 'user_id']);
     }
 }
