@@ -12,24 +12,25 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'vendor_id')->textInput() ?>
+   <!--  <?= $form->field($model, 'vendor_id')->textInput(['style'=>'width:200px'])  ?> -->
 
-    <?= $form->field($model, 'vehicle_no')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'vehicle_no')->textInput(['style'=>'width:200px']) ?>
 
-    <?= $form->field($model, 'engine_no')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'engine_no')->textInput(['style'=>'width:200px'])  ?>
 
-    <?= $form->field($model, 'chasis_no')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'chasis_no')->textInput(['style'=>'width:200px'])  ?>
+<div class="form-group"><div class="col-sm-3">
+    <?= $form->field($model, 'corporation')->dropDownList([ 'IOC' => 'IOC', 'BPC' => 'BPC', 'HPC' => 'HPC', 'OTHERS' => 'OTHERS', ], ['prompt' => '']) ?></div></div>
 
-    <?= $form->field($model, 'corporation')->dropDownList([ 'IOC' => 'IOC', 'BPC' => 'BPC', 'HPC' => 'HPC', 'OTHERS' => 'OTHERS', ], ['prompt' => '']) ?>
+    <?= $form->field($model, 'type')->textInput(['style'=>'width:200px'])  ?>
 
-    <?= $form->field($model, 'type')->textInput() ?>
+   <!--  <?= $form->field($model, 'user_id')->textInput(['style'=>'width:200px']) ?>
 
-    <?= $form->field($model, 'user_id')->textInput() ?>
-
-    <?= $form->field($model, 'time')->textInput() ?>
+    <?= $form->field($model, 'time')->textInput(['style'=>'width:200px'])  ?> -->
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+          <?= Html::resetButton($model->isNewRecord ? 'Reset' : 'Cancel', ['class' => $model->isNewRecord ? 'btn btn-danger' : 'btn btn-danger']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

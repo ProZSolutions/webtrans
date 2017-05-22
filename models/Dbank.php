@@ -36,6 +36,8 @@ class Dbank extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+        [['driver_id', 'acc_no', 'user_id','branch','ifsc','bank_name'],'required'],
+        
             [['driver_id', 'acc_no', 'is_active', 'user_id'], 'integer'],
             [['time'], 'safe'],
             [['bank_name'], 'string', 'max' => 18],

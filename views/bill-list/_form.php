@@ -12,26 +12,27 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'vehicle_id')->textInput() ?>
+  <!--   <?= $form->field($model, 'vehicle_id')->textInput(['style'=>'width:200px']) ?> -->
 
-    <?= $form->field($model, 'type')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'type')->textInput(['style'=>'width:200px']) ?>
 
-    <?= $form->field($model, 'from')->textInput() ?>
+    <?= $form->field($model, 'from')->textInput(['style'=>'width:200px'])  ?>
 
-    <?= $form->field($model, 'to')->textInput() ?>
+    <?= $form->field($model, 'to')->textInput(['style'=>'width:200px'])  ?>
 
-    <?= $form->field($model, 'amount')->textInput() ?>
+    <?= $form->field($model, 'amount')->textInput(['style'=>'width:200px']) ?>
 
-    <?= $form->field($model, 'paid_date')->textInput() ?>
+    <?= $form->field($model, 'paid_date')->textInput(['style'=>'width:200px'])  ?>
 
-    <?= $form->field($model, 'num')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'num')->textInput(['style'=>'width:200px'])  ?>
 
-    <?= $form->field($model, 'user_id')->textInput() ?>
+  <!--   <?= $form->field($model, 'user_id')->textInput(['style'=>'width:200px'])  ?>
 
-    <?= $form->field($model, 'time')->textInput() ?>
+    <?= $form->field($model, 'time')->textInput(['style'=>'width:200px'])  ?> -->
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::resetButton($model->isNewRecord ? 'Reset' : 'Cancel', ['class' => $model->isNewRecord ? 'btn btn-danger' : 'btn btn-danger']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

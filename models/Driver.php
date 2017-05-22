@@ -40,7 +40,11 @@ class Driver extends \yii\db\ActiveRecord
      */
     public function rules()
     {
+
+
         return [
+         [['name','license_no','expiry','address','contact','refrence','license_type','join_date','user_id','time','vehicle_id'],'required'],
+         
             [['expiry', 'join_date', 'time'], 'safe'],
             [['is_active', 'user_id', 'vehicle_id'], 'integer'],
             [['name'], 'string', 'max' => 17],

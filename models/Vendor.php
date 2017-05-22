@@ -35,6 +35,7 @@ class Vendor extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+        [['transport_id','vendor_code', 'verdor_corp', 'user_id','time'],'required'],
             [['transport_id', 'verdor_corp', 'user_id'], 'required'],
             [['transport_id', 'user_id', 'is_active'], 'integer'],
             [['time'], 'safe'],

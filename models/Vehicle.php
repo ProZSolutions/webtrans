@@ -41,6 +41,8 @@ class Vehicle extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+
+        [['vendor_id','vehicle_no','engine_no', 'chasis_no','corporation', 'type','user_id','time'],'required'],
             [['vendor_id', 'type', 'user_id'], 'integer'],
             [['vehicle_no', 'type'], 'required'],
             [['corporation'], 'string'],
