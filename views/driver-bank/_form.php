@@ -12,24 +12,25 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'driver_id')->textInput() ?>
+   <!--  <?= $form->field($model, 'driver_id')->textInput(['style'=>'width:200px'])  ?> -->
 
-    <?= $form->field($model, 'bank_name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'bank_name')->textInput(['style'=>'width:200px']) ?>
 
-    <?= $form->field($model, 'acc_no')->textInput() ?>
+    <?= $form->field($model, 'acc_no')->textInput(['style'=>'width:200px'])  ?>
 
-    <?= $form->field($model, 'branch')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'branch')->textInput(['style'=>'width:200px']) ?>
 
-    <?= $form->field($model, 'ifsc')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'ifsc')->textInput(['style'=>'width:200px'])  ?>
 
-    <?= $form->field($model, 'is_active')->textInput() ?>
+    <!-- <?= $form->field($model, 'is_active')->textInput(['style'=>'width:200px']) ?>
 
-    <?= $form->field($model, 'user_id')->textInput() ?>
+    <?= $form->field($model, 'user_id')->textInput(['style'=>'width:200px'])  ?>
 
-    <?= $form->field($model, 'time')->textInput() ?>
+    <?= $form->field($model, 'time')->textInput(['style'=>'width:200px'])  ?> -->
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::resetButton($model->isNewRecord ? 'Reset' : 'Cancel', ['class' => $model->isNewRecord ? 'btn btn-danger' : 'btn btn-danger']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

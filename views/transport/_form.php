@@ -12,13 +12,16 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'name')->textInput(['style'=>'width:200px']) ?>
 
-    <?= $form->field($model, 'owner')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'owner')->textInput(['style'=>'width:200px'])?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::resetButton($model->isNewRecord ? 'Reset' :'Cancel', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-danger'])?>
+
     </div>
+ 
 
     <?php ActiveForm::end(); ?>
 

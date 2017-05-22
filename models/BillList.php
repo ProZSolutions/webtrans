@@ -36,7 +36,10 @@ class BillList extends \yii\db\ActiveRecord
      */
     public function rules()
     {
+
         return [
+         [['vehicle_id','type','from', 'to','amount', 'paid_date' ,'num','user_id', 'time'],'required'],
+
             [['vehicle_id', 'user_id'], 'integer'],
             [['from', 'to', 'paid_date', 'time'], 'safe'],
             [['amount'], 'number'],
