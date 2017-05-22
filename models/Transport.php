@@ -30,6 +30,7 @@ class Transport extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+        [['name','owner'],'required'],
             [['name', 'owner'], 'string', 'max' => 15],
         ];
     }
