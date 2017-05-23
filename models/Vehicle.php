@@ -42,6 +42,17 @@ class Vehicle extends \yii\db\ActiveRecord
         return [
 
         [['vendor_id','vehicle_no','engine_no', 'chasis_no','corporation', 'type','user_id','time'],'required'],
+
+         array(
+            'engine_no',
+            'match', 'not' => true, 'pattern' => '/[^0-9a-zA-Z_-]/',
+            'message' => 'Invalid characters in Engine Number.',
+        ),
+           array(
+            'chasis_no',
+            'match', 'not' => true, 'pattern' => '/[^0-9a-zA-Z_-]/',
+            'message' => 'Invalid characters in Chasis Number.',
+        ),
             [['vendor_id', 'type', 'user_id'], 'integer'],
             [['vehicle_no', 'type'], 'required'],
             [['corporation'], 'string'],

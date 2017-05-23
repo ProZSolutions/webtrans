@@ -36,6 +36,11 @@ class Vendor extends \yii\db\ActiveRecord
     {
         return [
         [['transport_id','vendor_code', 'verdor_corp', 'user_id','time'],'required'],
+        array(
+            'vendor_code',
+            'match', 'not' => true, 'pattern' => '/[^0-9a-zA-Z_-]/',
+            'message' => 'Invalid characters in vendor code.',
+        ),
             [['transport_id', 'verdor_corp', 'user_id'], 'required'],
             [['transport_id', 'user_id', 'is_active'], 'integer'],
             [['time'], 'safe'],
@@ -86,3 +91,4 @@ class Vendor extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['user_id' => 'user_id']);
     }
 }
+ 

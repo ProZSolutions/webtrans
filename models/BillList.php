@@ -63,7 +63,7 @@ class BillList extends \yii\db\ActiveRecord
             'to' => 'To',
             'amount' => 'Amount',
             'paid_date' => 'Paid Date',
-            'num' => 'Num',
+            'num' => 'Bill Number',
             'user_id' => 'User ID',
             'time' => 'Time',
         ];

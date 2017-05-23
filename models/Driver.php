@@ -1,7 +1,6 @@
 <?php
 
 namespace app\models;
-
 use Yii;
 
 /**
@@ -44,13 +43,34 @@ class Driver extends \yii\db\ActiveRecord
 
         return [
          [['name','license_no','expiry','address','contact','refrence','license_type','join_date','user_id','time','vehicle_id'],'required'],
-         
+         array(
+            'name',
+            'match', 'not' => true, 'pattern' => '/[^a-zA-Z\s]/',
+            'message' => 'Invalid characters in Driver name.',
+        ),
+         array(
+            'license_no',
+            'match', 'not' => true, 'pattern' => '/[^0-9a-zA-Z_-]/',
+            'message' => 'Invalid characters in license no.',
+        ),
+        //  array(
+        //     'contact',
+        //     'match', 'not' => true, 'pattern' => '^\d{4}-\d{3}-\d{4}$',
+        //     'message' => 'Invalid characters in Contact no.',
+        // ),
+        array(
+            'refrence',
+            'match', 'not' => true, 'pattern' => '/[^a-zA-Z\s]/',
+            'message' => 'Invalid characters in refrence.',
+        ),
+
             [['expiry', 'join_date', 'time'], 'safe'],
             [['is_active', 'user_id', 'vehicle_id'], 'integer'],
             [['name'], 'string', 'max' => 17],
-            [['license_no'], 'string', 'max' => 18],
+            [['license_no'], 'string', 'max' => 20],
             [['address'], 'string', 'max' => 70],
-            [['contact', 'refrence'], 'string', 'max' => 40],
+            [['contact'], 'integer',],
+            [['refrence'], 'string', 'max' => 20],
             [['license_type'], 'string', 'max' => 10],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'user_id']],
             [['vehicle_id'], 'exist', 'skipOnError' => true, 'targetClass' => Vehicle::className(), 'targetAttribute' => ['vehicle_id' => 'vehicle_id']],
@@ -64,11 +84,11 @@ class Driver extends \yii\db\ActiveRecord
     {
         return [
             'driver_id' => 'Driver ID',
-            'name' => 'Name',
+            'name' => 'Driver Name',
             'license_no' => 'License No',
-            'expiry' => 'Expiry',
+            'expiry' => 'Expiry Date',
             'address' => 'Address',
-            'contact' => 'Contact',
+            'contact' => 'Contact No',
             'refrence' => 'Refrence',
             'license_type' => 'License Type',
             'join_date' => 'Join Date',

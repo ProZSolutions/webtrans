@@ -9,20 +9,22 @@ use yii\widgets\ActiveForm;
 ?>
 
 <div class="transport-form">
+<div class="row">
+        <div class="col-lg-3">
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textInput(['style'=>'width:200px']) ?>
+    <?= $form->field($model, 'name')->textInput() ?>
 
-    <?= $form->field($model, 'owner')->textInput(['style'=>'width:200px'])?>
+    <?= $form->field($model, 'owner')->textInput()?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        <?= Html::resetButton($model->isNewRecord ? 'Reset' :'Cancel', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-danger'])?>
+        <?= Html::resetButton($model->isNewRecord ? 'Reset' :'Cancel', ['class' => $model->isNewRecord ? 'btn btn-danger' : 'btn btn-danger'])?>
 
     </div>
- 
+ </div>
 
     <?php ActiveForm::end(); ?>
-
+</div>
 </div>
