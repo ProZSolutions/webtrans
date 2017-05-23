@@ -37,11 +37,20 @@ class TransportController extends Controller
     {
         $searchModel = new TransportSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $model = new Transport();
 
-        return $this->render('index', [
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['index']);
+            
+        } else {
+            return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model' => $model,
         ]);
+        }
+        
+       
     }
 
     /**
@@ -49,12 +58,24 @@ class TransportController extends Controller
      * @param integer $id
      * @return mixed
      */
+    // public function actionView($id)
+    // {
+    //     return $this->render('view', [
+    //         'model' => $this->findModel($id),
+    //     ]);
+    // }
     public function actionView($id)
-    {
+{
+    if (Yii::$app->request->isAjax) {
+        return $this->renderAjax('view', [
+            'model' => $this->findModel($id),
+        ]);
+    } else {
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
+}
 
     /**
      * Creates a new Transport model.
@@ -66,7 +87,7 @@ class TransportController extends Controller
         $model = new Transport();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->transport_id]);
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -85,12 +106,16 @@ class TransportController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->transport_id]);
+            
+            return $this->redirect(['index']);
         } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+
+          return $this->renderPartial('update', [
+            'model' => $this->findModel($id),
+        ]);
         }
+
+         
     }
 
     /**

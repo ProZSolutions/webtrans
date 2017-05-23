@@ -1,8 +1,6 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
 /* @var $this yii\web\View */
 /* @var $model app\models\Transport */
 /* @var $form yii\widgets\ActiveForm */
@@ -18,7 +16,7 @@ use yii\widgets\ActiveForm;
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        <?= Html::resetButton($model->isNewRecord ? 'Reset' :'Cancel', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-danger'])?>
+        <?= Html::resetButton($model->isNewRecord ? 'Reset' :'Close', ['class' => $model->isNewRecord ? 'btn btn-primary' : 'btn btn-danger closebutton'])?>
 
     </div>
  

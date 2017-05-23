@@ -37,11 +37,20 @@ class VendorController extends Controller
     {
         $searchModel = new VendorSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $model = new Vendor();
+        $model->user_id ="001";
+        $model->is_active ="1";
+      
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {            
+           return $this->redirect(['index']);            
+        } else {
 
-        return $this->render('index', [
+            return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model' => $model,
         ]);
+        }
     }
 
     /**
@@ -66,8 +75,9 @@ class VendorController extends Controller
         $model = new Vendor();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->vendor_id]);
+            return $this->redirect(['index']);
         } else {
+           
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -82,14 +92,16 @@ class VendorController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+       $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->vendor_id]);
+            
+            return $this->redirect(['index']);
         } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+
+          return $this->renderPartial('update', [
+            'model' => $this->findModel($id),
+        ]);
         }
     }
 

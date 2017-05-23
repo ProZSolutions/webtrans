@@ -5,14 +5,11 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Transport */
 
-$this->title = 'Update Transport: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Transports', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->transport_id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Update Transport';
 ?>
-<div class="transport-update">
+<div class="transport-update col-sm-offset-2 col-xs-offset-2">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><?= Html::encode($this->title) ?></h3>
 
     <?= $this->render('_form', [
         'model' => $model,
