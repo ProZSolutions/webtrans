@@ -42,7 +42,7 @@ class Driver extends \yii\db\ActiveRecord
 
 
         return [
-         [['name','license_no','expiry','address','contact','refrence','license_type','join_date','user_id','time','vehicle_id'],'required'],
+         [['name','license_no','expiry','address','contact','refrence','license_type','join_date','user_id','time','vehicle_id','contact'],'required'],
          array(
             'name',
             'match', 'not' => true, 'pattern' => '/[^a-zA-Z\s]/',
@@ -65,11 +65,11 @@ class Driver extends \yii\db\ActiveRecord
         ),
 
             [['expiry', 'join_date', 'time'], 'safe'],
-            [['is_active', 'user_id', 'vehicle_id'], 'integer'],
+            [['is_active', 'user_id', 'vehicle_id','contact','contact'], 'integer'],
             [['name'], 'string', 'max' => 17],
             [['license_no'], 'string', 'max' => 20],
             [['address'], 'string', 'max' => 70],
-            [['contact'], 'integer',],
+            [['contact','contact'], 'string','max' => 10],
             [['refrence'], 'string', 'max' => 20],
             [['license_type'], 'string', 'max' => 10],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'user_id']],
@@ -89,6 +89,7 @@ class Driver extends \yii\db\ActiveRecord
             'expiry' => 'Expiry Date',
             'address' => 'Address',
             'contact' => 'Contact No',
+             'contact' => 'Contact No',
             'refrence' => 'Refrence',
             'license_type' => 'License Type',
             'join_date' => 'Join Date',

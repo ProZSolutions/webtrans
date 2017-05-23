@@ -34,6 +34,7 @@ echo DatePicker::widget([
     <?= $form->field($model, 'address')->textInput() ?>
 
     <?= $form->field($model, 'contact')->textInput()  ?>
+    <?= $form->field($model, 'contact')->textInput()  ?>
 
     <?= $form->field($model, 'refrence')->textInput()  ?>
 

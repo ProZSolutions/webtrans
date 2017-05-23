@@ -5,10 +5,9 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "dbank".
+ * This is the model class for table "tbank".
  *
- * @property integer $dbank_id
- * @property integer $driver_id
+ * @property integer $tbank_id
  * @property string $bank_name
  * @property integer $acc_no
  * @property string $branch
@@ -16,18 +15,20 @@ use Yii;
  * @property integer $is_active
  * @property integer $user_id
  * @property string $time
+ * @property integer $transport_id
  *
- * @property Driver $driver
+ * @property Cdeposit[] $cdeposits
+ * @property Transport $transport
  * @property User $user
  */
-class Dbank extends \yii\db\ActiveRecord
+class Tbank extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'dbank';
+        return 'tbank';
     }
 
     /**
@@ -36,29 +37,12 @@ class Dbank extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-        [['driver_id', 'acc_no', 'user_id','branch','ifsc','bank_name'],'required'],
-        array(
-            'ifsc',
-            'match', 'not' => true, 'pattern' => '/[^0-9a-zA-Z_-]/',
-            'message' => 'Invalid characters in ifsc code.',
-        ),
-         array(
-            'bank_name',
-            'match', 'not' => true, 'pattern' => '/[^a-zA-Z]/',
-            'message' => 'Invalid characters in Bank name.',
-        ),
-         array(
-            'branch',
-            'match', 'not' => true, 'pattern' => '/[^a-zA-Z]/',
-            'message' => 'Invalid characters in Branch name.',
-        ),
-            [['driver_id', 'acc_no', 'is_active', 'user_id'], 'integer'],
+            [['acc_no', 'is_active', 'user_id', 'transport_id'], 'integer'],
             [['time'], 'safe'],
             [['bank_name'], 'string', 'max' => 18],
             [['branch'], 'string', 'max' => 20],
             [['ifsc'], 'string', 'max' => 12],
-            [['acc_no'], 'string', 'max' => 20],
-            [['driver_id'], 'exist', 'skipOnError' => true, 'targetClass' => Driver::className(), 'targetAttribute' => ['driver_id' => 'driver_id']],
+            [['transport_id'], 'exist', 'skipOnError' => true, 'targetClass' => Transport::className(), 'targetAttribute' => ['transport_id' => 'transport_id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'user_id']],
         ];
     }
@@ -69,8 +53,7 @@ class Dbank extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'dbank_id' => 'Dbank ID',
-            'driver_id' => 'Driver ID',
+            'tbank_id' => 'Tbank ID',
             'bank_name' => 'Bank Name',
             'acc_no' => 'Acc No',
             'branch' => 'Branch',
@@ -78,15 +61,24 @@ class Dbank extends \yii\db\ActiveRecord
             'is_active' => 'Is Active',
             'user_id' => 'User ID',
             'time' => 'Time',
+            'transport_id' => 'Transport ID',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDriver()
+    public function getCdeposits()
     {
-        return $this->hasOne(Driver::className(), ['driver_id' => 'driver_id']);
+        return $this->hasMany(Cdeposit::className(), ['tbank_id' => 'tbank_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTransport()
+    {
+        return $this->hasOne(Transport::className(), ['transport_id' => 'transport_id']);
     }
 
     /**
