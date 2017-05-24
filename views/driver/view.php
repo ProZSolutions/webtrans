@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
+/*this makeup was to update in it*/
 /* @var $this yii\web\View */
 /* @var $model app\models\Driver */
 
