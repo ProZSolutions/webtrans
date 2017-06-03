@@ -42,11 +42,23 @@ class Vehicle extends \yii\db\ActiveRecord
     {
         return [
 
-        [['vendor_id','vehicle_no','engine_no', 'chasis_no','corporation', 'type','user_id','time'],'required'],
-            [['vendor_id', 'type', 'user_id'], 'integer'],
-            [['vehicle_no', 'type'], 'required'],
+        [['vendor_id','vehicle_no','engine_no', 'chasis_no','vendor_id'],'required'],
+
+         array(
+            'engine_no',
+            'match', 'not' => true, 'pattern' => '/[^0-9a-zA-Z_-]/',
+            'message' => 'Invalid characters in Engine Number.',
+        ),
+           array(
+            'chasis_no',
+            'match', 'not' => true, 'pattern' => '/[^0-9a-zA-Z_-]/',
+            'message' => 'Invalid characters in Chasis Number.',
+        ),
+            [['vendor_id', 'user_id'], 'integer'],
+           
             [['corporation'], 'string'],
             ['vehicle_no','passwordCriteria'],
+            ['vehicle_no', 'filter', 'filter'=>'strtoupper'],
             [['time'], 'safe'],
             [['vehicle_no'], 'string', 'max' => 10],
             [['engine_no', 'chasis_no'], 'string', 'max' => 25],
@@ -72,7 +84,7 @@ public function passwordCriteria()
     {
         return [
             'vehicle_id' => 'Vehicle ID',
-            'vendor_id' => 'Vendor ID',
+            'vendor_id' => 'Vendor Code',
             'vehicle_no' => 'Vehicle No',
             'engine_no' => 'Engine No',
             'chasis_no' => 'Chasis No',
@@ -129,5 +141,9 @@ public function passwordCriteria()
     public function getVendor()
     {
         return $this->hasOne(Vendor::className(), ['vendor_id' => 'vendor_id']);
+    }
+    public function getTransport()
+    {
+        return $this->hasOne(Transport::className(), ['transport_id' => 'vendor_id']);
     }
 }

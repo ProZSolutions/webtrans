@@ -11,8 +11,9 @@ $this->params['breadcrumbs'][] = ['label' => 'Bill Lists', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="bill-list-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="row">
+<div class="col-lg-5">
+    <h3><!-- <?= Html::encode($this->title) ?> -->View Bills</h3>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->bill_id], ['class' => 'btn btn-primary']) ?>
@@ -23,22 +24,29 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a('Back',['index'], ['class' => 'btn btn-warning']) ?>
+        
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'vehicle_id',
-            'bill_id',
+            [
+                'label' => 'Vechicle No',
+                'value' => $model->vehicle->vehicle_no,   
+                ],  
+            // 'bill_id',
             'type',
             'from',
             'to',
             'amount',
             'paid_date',
             'num',
-            'user_id',
-            'time',
+            // 'user_id',
+            // 'time',
         ],
     ]) ?>
 
+</div>
+</div>
 </div>

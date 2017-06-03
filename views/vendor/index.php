@@ -11,8 +11,13 @@ $this->title = 'Vendors';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="vendor-index col-sm-6">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+<style type="text/css">
+  .summary
+  {
+    display: none;
+  }
+</style>
+    <h2><!-- <?= Html::encode($this->title) ?> -->View Vendors List</h2>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     
@@ -20,14 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            // ['class' => 'yii\grid\SerialColumn'],
              [            
            'label'=>'Transport Name',
             'value' => 'transport.name',
             'headerOptions' => ['style' => 'color:#337ab7'],
             ],            
             'vendor_code',
-            'verdor_corp',    
+            'vendor_corp',    
            
 
             ['class' => 'yii\grid\ActionColumn',

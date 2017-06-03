@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="vendor-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><?= Html::encode($this->title) ?></h3>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->vendor_id], ['class' => 'btn btn-primary']) ?>
@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+         <?= Html::a('Back',['index'], ['class' => 'btn btn-warning']) ?>
     </p>
 
     <?= DetailView::widget([
@@ -31,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'vendor_id',
             'transport_id',
             'vendor_code',
-            'verdor_corp',
+            'vendor_corp',
             'user_id',
             'time',
             'is_active',

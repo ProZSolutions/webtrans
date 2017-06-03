@@ -11,8 +11,9 @@ $this->params['breadcrumbs'][] = ['label' => 'Vehicles', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="vehicle-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="row">
+<div class="col-lg-5">
+    <h3><!-- <?= Html::encode($this->title) ?> -->View Vehicle</h3>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->vehicle_id], ['class' => 'btn btn-primary']) ?>
@@ -23,21 +24,29 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+         <?= Html::a('Back',['index'], ['class' => 'btn btn-warning']) ?>
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'vehicle_id',
-            'vendor_id',
+           
             'vehicle_no',
             'engine_no',
             'chasis_no',
-            'corporation',
-            'type',
-            'user_id',
-            'time',
+             [
+                'label' => 'Vendor Code',
+                'value' => $model->vendor->vendor_code,   
+                ],
+            [
+                'label' => 'Corporation',
+                'value' => $model->vendor->vendor_corp,   
+                ],
+            //'type',
+           
         ],
     ]) ?>
 
+</div>
+</div>
 </div>

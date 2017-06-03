@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+         <?= Html::a('Back',['index'], ['class' => 'btn btn-warning']) ?>
     </p>
 
     <?= DetailView::widget([

@@ -64,6 +64,14 @@ class BillListController extends Controller
     public function actionCreate()
     {
         $model = new BillList();
+        //  $data = Yii::$app->request->post();
+        // $model->vehicle_id = $data['BillList']['vehicle_id'];
+        // $model->from =date('Y-m-d', strtotime($data['BillList']['from']));
+        // $model->to = date('Y-m-d', strtotime($data['BillList']['to']));
+        // $model->amount = $data['BillList']['amount'];
+        // $model->paid_date = date('Y-m-d', strtotime($data['BillList']['paid_date']));
+        // $model->num =$data['BillList']['num'];
+        // $model->type =$data['BillList']['type'];
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->bill_id]);

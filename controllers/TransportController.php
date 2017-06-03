@@ -40,9 +40,12 @@ class TransportController extends Controller
         $model = new Transport();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+
             return $this->redirect(['index']);
             
         } else {
+
             return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -89,6 +92,7 @@ class TransportController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['index']);
         } else {
+            
             return $this->render('create', [
                 'model' => $model,
             ]);

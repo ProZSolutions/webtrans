@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Driver;
+use yii\db\Query;
 
 /**
  * DriverSearch represents the model behind the search form about `app\models\Driver`.
@@ -41,7 +42,12 @@ class DriverSearch extends Driver
      */
     public function search($params)
     {
-        $query = Driver::find();
+         $query = Driver::find();
+        // $query= new Query;       
+        // $query  ->select(['db.dbank_id as bankid','db.bank_name as bname','db.acc_no  as number','db.branch as branch','db.ifsc','d.driver_id','d.name','d.license_no','d.expiry','d.address','d.contact','d.refrence','d.license_type','d.join_date']) 
+        //     ->from('dbank as db')
+        //     ->innerJoin('driver as d', 'db.driver_id = d.driver_id');
+           
 
         // add conditions that should always apply here
 

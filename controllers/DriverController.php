@@ -8,6 +8,7 @@ use app\models\DriverSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\db\Query;
 
 /**
  * DriverController implements the CRUD actions for Driver model.
@@ -34,7 +35,8 @@ class DriverController extends Controller
      * @return mixed
      */
     public function actionIndex()
-    {
+    {   
+     
         $searchModel = new DriverSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -64,7 +66,7 @@ class DriverController extends Controller
     public function actionCreate()
     {
         $model = new Driver();
-
+        
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->driver_id]);
         } else {

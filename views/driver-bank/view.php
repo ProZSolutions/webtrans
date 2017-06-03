@@ -1,43 +1,49 @@
 <?php
 
 use yii\helpers\Html;
+use yii\grid\GridView;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Dbank */
 
-$this->title = $model->dbank_id;
-$this->params['breadcrumbs'][] = ['label' => 'Dbanks', 'url' => ['index']];
+//$this->title = $model->dbank_id;
+$this->params['breadcrumbs'][] = ['label' => 'Driver', 'url' => ['driver/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="dbank-view">
+<style type="text/css">
+    .summary
+    {
+        display:none;
+    }
+</style>
+  <p><?= Html::a('Back',['driver/index'], ['class' => 'btn btn-warning']) ?></p>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+     <?= GridView::widget([
+        'dataProvider' => $model,
+        
+        'columns' => [
+            // ['class' => 'yii\grid\SerialColumn'],
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->dbank_id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->dbank_id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'dbank_id',
-            'driver_id',
+           //'dbank_id',
+           // 'driver_id',
             'bank_name',
             'acc_no',
             'branch',
             'ifsc',
-            'is_active',
-            'user_id',
-            'time',
+            // 'is_active',
+            // 'user_id',
+            // 'time',
+
+            ['class' => 'yii\grid\ActionColumn',
+            'header'=>'Actions',
+         'headerOptions' => ['style' => 'color:#337ab7'],
+        'template' => '{update} {delete}',
+
+            
+            ],
         ],
-    ]) ?>
+    ]); ?>
 
 </div>

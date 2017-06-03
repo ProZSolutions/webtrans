@@ -6,18 +6,16 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-        'modules' => [
-       'gridview' =>  [
-            'class' => '\kartik\grid\Module'
-            // enter optional module parameters below - only if you need to  
-            // use your own export download action or custom translation 
-            // message source
-            // 'downloadAction' => 'gridview/export/download',
-            // 'i18n' => []
-        ]
-    ],
     'components' => [
 
+        'session' => [
+            'class' => 'yii\web\Session',
+            'cookieParams' => ['httponly' => true, 'lifetime' => 3600 * 4],
+            'timeout' => 3600*4, //session expire
+            'useCookies' => true,
+        ],
+                
+           
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'HyTmBoolgBpw95jJrR_KkXvGezGTzU45',
@@ -27,7 +25,8 @@ $config = [
         ],
         'user' => [
             'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
+            'enableAutoLogin' => false,
+            'authTimeout' => 3600,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -50,7 +49,7 @@ $config = [
         ],
         'db' => require(__DIR__ . '/db.php'),
         
-        'urlManager' => [
+       'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
@@ -59,7 +58,22 @@ $config = [
         ],
         
     ],
+    'defaultRoute' => 'site/login',
     'params' => $params,
+    'as beforeRequest' => [
+'class' => 'yii\filters\AccessControl',
+'rules' => [
+[
+'actions' => ['login', 'error'],
+'allow' => true,
+],
+[
+
+'allow' => true,
+'roles' => ['@'],
+],
+],
+], 
 ];
 
 if (YII_ENV_DEV) {

@@ -11,8 +11,13 @@ $this->title = 'Transports';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="transport-index col-sm-6">
-
-    <h1><!--  //Html::encode($this->title)  --></h1>
+<style type="text/css">
+  .summary
+  {
+    display: none;
+  }
+</style>
+    <h3><!--  //Html::encode($this->title)  -->View Transport List</h3>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
    <!--  <p>
@@ -22,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
+            // ['class' => 'yii\grid\SerialColumn'],
 
            
             'name',
@@ -30,9 +35,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
             ['class' => 'yii\grid\ActionColumn',
-        'header'=>'Actions',
+        'header'=>'Action',
          'headerOptions' => ['style' => 'color:#337ab7'],
-        'template' => '{update} {delete}',
+        'template' => '{update} ',
 
             'buttons' => [
             //'view' => function ($url, $model) {
@@ -58,7 +63,7 @@ $this->params['breadcrumbs'][] = $this->title;
 });
 ");
   $this->registerJs("$(document).on('ready pjax:success', function() {  // 'pjax:success' use if you have used pjax
-    $('.closebutton').click(function(e){
+    $('.closebutton').click(function(){
           
        $('#pModal').modal('hide')
                  

@@ -37,13 +37,12 @@ class VendorController extends Controller
     {
         $searchModel = new VendorSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $model = new Vendor();
-        $model->user_id ="001";
-        $model->is_active ="1";
-      
+        $model = new Vendor();   
+        $model->user_id='001';
         if ($model->load(Yii::$app->request->post()) && $model->save()) {            
            return $this->redirect(['index']);            
         } else {
+
 
             return $this->render('index', [
             'searchModel' => $searchModel,
@@ -75,9 +74,11 @@ class VendorController extends Controller
         $model = new Vendor();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
             return $this->redirect(['index']);
-        } else {
-           
+        } 
+         else {          
+
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -113,9 +114,15 @@ class VendorController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+         $model = $this->findModel($id);
+         $model->is_active='0';
+        if ($model->save()) {
+            
+            return $this->redirect(['index']);
+        } else {
 
-        return $this->redirect(['index']);
+         return $this->redirect(['index']);
+        }
     }
 
     /**

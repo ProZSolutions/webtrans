@@ -19,7 +19,7 @@ class VendorSearch extends Vendor
     {
         return [
             [['vendor_id', 'transport_id', 'user_id', 'is_active'], 'integer'],
-            [['vendor_code', 'verdor_corp', 'time'], 'safe'],
+            [['vendor_code', 'vendor_corp', 'time'], 'safe'],
         ];
     }
 
@@ -67,7 +67,8 @@ class VendorSearch extends Vendor
         ]);
 
         $query->andFilterWhere(['like', 'vendor_code', $this->vendor_code])
-            ->andFilterWhere(['like', 'verdor_corp', $this->verdor_corp]);
+            ->andFilterWhere(['like', 'vendor_corp', $this->vendor_corp])
+            ->andWhere(['is_active'=> 1]);
 
         return $dataProvider;
     }

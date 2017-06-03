@@ -3,11 +3,13 @@
 namespace app\controllers;
 
 use Yii;
+
 use app\models\Vehicle;
 use app\models\VehicleSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\Expiry;
 
 /**
  * VehicleController implements the CRUD actions for Vehicle model.
@@ -64,10 +66,15 @@ class VehicleController extends Controller
     public function actionCreate()
     {
         $model = new Vehicle();
+        $exp_model = new Expiry();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $exp_model->vehicle_id = $model->vehicle_id;
+            $exp_model->save();
             return $this->redirect(['view', 'id' => $model->vehicle_id]);
+         
         } else {
+
             return $this->render('create', [
                 'model' => $model,
             ]);

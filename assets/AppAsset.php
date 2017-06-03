@@ -14,14 +14,13 @@ use yii\web\AssetBundle;
  * @since 2.0
  */
 class AppAsset extends AssetBundle
-{   
+{
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
         'css/site.css',
     ];
     public $js = [
-    'js/gridViewEditable.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

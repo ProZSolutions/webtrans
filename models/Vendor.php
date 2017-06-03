@@ -35,12 +35,21 @@ class Vendor extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-        [['transport_id','vendor_code', 'verdor_corp'],'required'],
-            [['transport_id', 'verdor_corp', 'user_id'], 'required'],
+
+        [['transport_id','vendor_code', 'vendor_corp'],'required'],
+
+     
+        array(
+            'vendor_code',
+            'match', 'not' => true, 'pattern' => '/[^0-9a-zA-Z_-]/',
+            'message' => 'Invalid characters in vendor code.',
+        ),
+
+           
             [['transport_id', 'user_id', 'is_active'], 'integer'],
             [['time'], 'safe'],
             [['vendor_code'], 'string', 'max' => 15],
-            [['verdor_corp'], 'string', 'max' => 6],
+            [['vendor_corp'], 'string', 'max' => 6],
             [['transport_id'], 'exist', 'skipOnError' => true, 'targetClass' => Transport::className(), 'targetAttribute' => ['transport_id' => 'transport_id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'user_id']],
         ];
@@ -54,9 +63,9 @@ class Vendor extends \yii\db\ActiveRecord
     {
         return [
             'vendor_id' => 'Vendor ID',
-            'transport_id' => 'Transport ID',
+            'transport_id' => 'Transport Name',
             'vendor_code' => 'Vendor Code',
-            'verdor_corp' => 'Verdor Corp',
+            'vendor_corp' => 'Vendor Corp',
             'user_id' => 'User ID',
             'time' => 'Time',
             'is_active' => 'Is Active',
@@ -87,3 +96,4 @@ class Vendor extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['user_id' => 'user_id']);
     }
 }
+ 

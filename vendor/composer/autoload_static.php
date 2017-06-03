@@ -33,7 +33,12 @@ class ComposerStaticInitdc3a1d20e52d1ae7348c819120c18e6b
         array (
             'kartik\\grid\\' => 12,
             'kartik\\dialog\\' => 14,
+            'kartik\\date\\' => 12,
             'kartik\\base\\' => 12,
+        ),
+        'd' => 
+        array (
+            'dosamigos\\datepicker\\' => 21,
         ),
         'c' => 
         array (
@@ -124,9 +129,17 @@ class ComposerStaticInitdc3a1d20e52d1ae7348c819120c18e6b
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-dialog',
         ),
+        'kartik\\date\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/kartik-v/yii2-widget-datepicker',
+        ),
         'kartik\\base\\' => 
         array (
             0 => __DIR__ . '/..' . '/kartik-v/yii2-krajee-base',
+        ),
+        'dosamigos\\datepicker\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/2amigos/yii2-date-picker-widget/src',
         ),
         'cebe\\markdown\\' => 
         array (

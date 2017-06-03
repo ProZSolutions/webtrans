@@ -30,9 +30,25 @@ class Transport extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+
             [['name', 'owner'], 'required'],
             [['name', 'owner'], 'string', 'max' => 15],
 
+        [['name','owner'],'required'],
+        array(
+            'name',
+            'match', 'not' => true, 'pattern' => '/[^a-zA-Z\s]/',
+            'message' => 'Invalid characters in Transport name.',
+        ),
+        array(
+            'owner',
+            'match', 'not' => true, 'pattern' => '/[^a-zA-Z\s]/',
+            'message' => 'Invalid characters in Owner name.',
+        ),
+
+
+            [['name', 'owner'], 'string', 'max' => 15],
+             
         ];
     }
 
@@ -43,8 +59,8 @@ class Transport extends \yii\db\ActiveRecord
     {
         return [
             'transport_id' => 'Transport ID',
-            'name' => 'Name',
-            'owner' => 'Owner',
+            'name' => 'Transport Name',
+            'owner' => 'Owner Name',
            
         ];
     }

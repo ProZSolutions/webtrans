@@ -8,6 +8,7 @@ use app\models\DbankSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 
 /**
  * DriverBankController implements the CRUD actions for Dbank model.
@@ -61,14 +62,14 @@ class DriverBankController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id)
     {
         $model = new Dbank();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->dbank_id]);
         } else {
-            return $this->render('create', [
+            return $this->renderPartial('create', [
                 'model' => $model,
             ]);
         }
@@ -82,7 +83,7 @@ class DriverBankController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModelBank($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->dbank_id]);
@@ -101,9 +102,9 @@ class DriverBankController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $this->findModelBank($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['driver/index']);
     }
 
     /**
@@ -114,11 +115,38 @@ class DriverBankController extends Controller
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
-    {
+    {    $query = Dbank::find();
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+      
+
+        // grid filtering conditions
+        $query->andFilterWhere([
+           
+            'driver_id' => $id,
+           
+        ]);
+
+      
+
+        return $dataProvider;
+        // if (($model = Dbank::find()->andWhere(['driver_id' => $id])->all()) !== null) {
+            
+        // } else {
+        //     throw new NotFoundHttpException('The requested page does not exist.');
+        // }
+    }
+     protected function findModelBank($id)
+    {   
         if (($model = Dbank::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+           return $model; 
+         } else {
+             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 }

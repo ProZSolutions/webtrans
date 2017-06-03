@@ -11,7 +11,11 @@ $this->title = 'Bill Lists';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="bill-list-index">
-
+<style>
+.summary{
+display:none;
+}
+</style>
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -20,22 +24,42 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        //'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'vehicle_id',
-            'bill_id',
-            'type',
-            'from',
-            'to',
-            // 'amount',
-            // 'paid_date',
-            // 'num',
-            // 'user_id',
-            // 'time',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            // ['class' => 'yii\grid\SerialColumn'],
+            [
+            'label'=>'Vehicle No',
+            'value' => 'vehicle.vehicle_no',
+            'headerOptions' => ['style' => 'color:#337ab7'],
+            ], 
+            'type',            
+            [            
+            'label' => 'From',
+            'value' => 'from',
+            'headerOptions' => ['style' => 'color:#337ab7'],
+             'format' => ['date','php:d-m-Y']
+            ], 
+              [
+            
+            'label' => 'To',
+            'value' => 'to',
+            'headerOptions' => ['style' => 'color:#337ab7'],
+             'format' => ['date','php:d-m-Y']
+            ], 
+              [
+            
+            'label' => 'Paid Date',
+            'value' => 'paid_date',
+            'headerOptions' => ['style' => 'color:#337ab7'],
+             'format' => ['date','php:d-m-Y']
+            ], 
+            
+            'amount',
+           
+            'num',
+        
+            ['class' => 'yii\grid\ActionColumn','header'=>'Actions',
+            'headerOptions' => ['style' => 'color:#337ab7'],],
         ],
     ]); ?>
 </div>

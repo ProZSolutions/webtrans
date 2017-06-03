@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\AttributeBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "bill_list".
@@ -34,12 +36,46 @@ class BillList extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+     public function behaviors()
+    {
+        return [
+            [
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['from'], // update 1 attribute 'created' OR multiple attribute ['created','updated']
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['from']  // update 1 attribute 'created' OR multiple attribute ['created','updated']
+                ],
+                'value' => function ($event) {
+                    return date('Y-m-d',strtotime($this->from));
+                },
+            ],
+            [
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['to'], // update 1 attribute 'created' OR multiple attribute ['created','updated']
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['to']  // update 1 attribute 'created' OR multiple attribute ['created','updated']
+                ],
+                'value' => function ($event) {
+                    return date('Y-m-d',strtotime($this->to));
+                },
+            ],
+            [
+                'class' => AttributeBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['paid_date'], // update 1 attribute 'created' OR multiple attribute ['created','updated']
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['paid_date']  // update 1 attribute 'created' OR multiple attribute ['created','updated']
+                ],
+                'value' => function ($event) {
+                    return date('Y-m-d',strtotime($this->paid_date));
+                },
+            ],
+        ];
+    }
     public function rules()
     {
 
         return [
-         [['vehicle_id','type','from', 'to','amount', 'paid_date' ,'num','user_id', 'time'],'required'],
-
+            [['vehicle_id','type','from', 'to','amount', 'paid_date' ,'num'],'required'],
             [['vehicle_id', 'user_id'], 'integer'],
             [['from', 'to', 'paid_date', 'time'], 'safe'],
             [['amount'], 'number'],
@@ -63,7 +99,7 @@ class BillList extends \yii\db\ActiveRecord
             'to' => 'To',
             'amount' => 'Amount',
             'paid_date' => 'Paid Date',
-            'num' => 'Num',
+            'num' => 'Bill Number',
             'user_id' => 'User ID',
             'time' => 'Time',
         ];

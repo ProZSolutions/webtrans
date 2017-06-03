@@ -11,8 +11,9 @@ $this->params['breadcrumbs'][] = ['label' => 'Drivers', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="driver-view">
-
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="row">
+<div class="col-lg-5">
+    <h3><!-- <?= Html::encode($this->title) ?> -->View driver Details</h3>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->driver_id], ['class' => 'btn btn-primary']) ?>
@@ -23,25 +24,32 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+         <?= Html::a('Back',['index'], ['class' => 'btn btn-warning']) ?>
     </p>
 
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'driver_id',
+           
+              [
+                'label' => 'Vehicle No',
+                'value' => $model->vehicle->vehicle_no,   
+                ],
             'name',
             'license_no',
             'expiry',
             'address',
             'contact',
             'refrence',
-            'license_type',
+            //'license_type',
             'join_date',
-            'is_active',
-            'user_id',
-            'time',
-            'vehicle_id',
+            //'is_active',
+            //'user_id',
+            //'time',
+            //'vehicle_id',
         ],
     ]) ?>
 
+</div>
+</div>
 </div>
