@@ -50,7 +50,7 @@ class LdieselController extends \yii\web\Controller
   	public function actionIndex() {         
 	    $query= new Query;
 	    $query ->from('ldiesel AS d')     
-	    	->select(['d.ldiesel_id as dieselId','d.payment_mode as payMode','d.card_id as cardId','card.card_no as cardNo','d.fill_date as fillDate','d.diesel_price as dieselPrice','d.total_diesel as totalDiesel','d.diesel_amount as dieselAmount','d.place'])
+	    	->select(['d.ldiesel_id as dieselId','d.payment_mode as payMode','d.card_id as cardId','card.card_no as cardNo',"DATE_FORMAT(d.fill_date, '%d-%m-%Y') as fillDate",'d.diesel_price as dieselPrice','d.total_diesel as totalDiesel','d.diesel_amount as dieselAmount','d.place'])
 	    	->leftJoin('card', 'card.card_id = d.card_id')  ;	           
 	    $command = $query->createCommand();
 	    $models = $command->queryAll();  
@@ -61,7 +61,7 @@ class LdieselController extends \yii\web\Controller
   	public function actionViewDiesel($id) {         
 	    $query= new Query;
 	    $query ->from('ldiesel AS d')     
-	    	->select(['d.trip_id as tripId','d.ldiesel_id as dieselId','d.payment_mode as payMode','d.card_id as cardId','card.card_no as cardNo','d.fill_date as fillDate','d.diesel_price as dieselPrice','d.total_diesel as totalDiesel','d.diesel_amount as dieselAmount','d.place'])
+	    	->select(['d.trip_id as tripId','d.ldiesel_id as dieselId','d.payment_mode as payMode','d.card_id as cardId','card.card_no as cardNo',"DATE_FORMAT(d.fill_date, '%d-%m-%Y') as fillDate",'d.diesel_price as dieselPrice','d.total_diesel as totalDiesel','d.diesel_amount as dieselAmount','d.place'])
 	    	->leftJoin('card', 'card.card_id = d.card_id') 
 	    	->andWhere(['d.ldiesel_id'=> $id]);	           
 	    $command = $query->createCommand();
@@ -72,7 +72,7 @@ class LdieselController extends \yii\web\Controller
   	public function actionGetDiesel($id) {         
 	    $query= new Query;
 	    $query ->from('ldiesel AS d')     
-	    	->select(['d.trip_id as tripId','d.ldiesel_id as dieselId','d.payment_mode as payMode','card.card_no as cardNo','d.fill_date as fillDate','d.diesel_price as dieselPrice','d.total_diesel as totalDiesel','d.diesel_amount as dieselAmount','d.place'])
+	    	->select(['d.trip_id as tripId','d.ldiesel_id as dieselId','d.payment_mode as payMode','card.card_no as cardNo',"DATE_FORMAT(d.fill_date, '%d-%m-%Y') as fillDate",'d.diesel_price as dieselPrice','d.total_diesel as totalDiesel','d.diesel_amount as dieselAmount','d.place'])
 	    	->leftJoin('card', 'card.card_id = d.card_id') 
 	    	->andWhere(['d.trip_id'=> $id]);	           
 	    $command = $query->createCommand();

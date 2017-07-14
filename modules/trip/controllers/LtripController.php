@@ -31,6 +31,8 @@ class LtripController extends \yii\web\Controller
 		          	'get-card'=>['get'], 
 		          	'view-ltrip'=>['post'], 
 		          	'advance'=>['post'],
+		          	'unload-vehicle'=>['get'],
+		          	'close-vehicle'=>['get'],
 		                            
 		        ],        
 	      	]
@@ -71,6 +73,16 @@ class LtripController extends \yii\web\Controller
 	  		$models = Ltrip::getRun();
 	    	$this->setHeader(200);     
 	    	echo json_encode(array_filter($models),JSON_UNESCAPED_SLASHES); 	   
+  	}
+  	public function actionUnloadVehicle() {         
+	  		$models = Ltrip::getUnload();
+	    	$this->setHeader(200);     
+	    	echo json_encode(array_filter($models),JSON_UNESCAPED_SLASHES); 	   
+  	}
+  	public function actionCloseVehicle() {         
+	  		$models = Ltrip::getClose();
+	    	$this->setHeader(200);     
+	    	echo json_encode(array_filter($models),JSON_UNESCAPED_SLASHES); 	   
   	} 
   	public function actionGetCard() {         
 	  		$models = Ltrip::getCard();
@@ -97,6 +109,11 @@ class LtripController extends \yii\web\Controller
 	    $exp = new Lexpense();
 	    $exp->trip_id = $model->trip_id;
 	    $exp->save();
+
+	    $Lpay = new Lpayment();
+	   	$Lpay->trip_id = $model->trip_id;
+	   	$Lpay->save(); 
+
 	      	$this->setHeader(200);
 	    	echo json_encode(array('status'=>"success"),JSON_PRETTY_PRINT);        
 	    } 
@@ -138,7 +155,8 @@ class LtripController extends \yii\web\Controller
     			$pay->date = date('Y-m-d', strtotime($params['fillDate']));
     			$pay->for = 'adv'; 
     			$pay->trip_id = $params[0]['tripId']; 
-			    $pay->save();
+			   $pay->save();
+
 
 			    $total = $this->sumOfAdvance($model->trip_id); 
 			    $modeltrip = $this->findModel($model->trip_id);
@@ -160,19 +178,20 @@ class LtripController extends \yii\web\Controller
  	public function actionCloseLtrip($id) {  	    
 	    $post = file_get_contents("php://input");	   
 	    $params = json_decode($post, true);	 	  
-	    $model = $this->findModel($id); 	    	   
+	    $model = $this->findModel($id); 
 	    $model->frieght = $params['frieght'];  
-	    $model->trip_profit = $params[0]['totalexpense']-$params['frieght'];
-	     $model->trip_status = 0;	    
-	    if($model->save()) {  
-	  		$Lpay = new Lpayment();
-	   		$Lpay->trip_id = $model->trip_id; 
-	    	$Lpay->total_frieght = $model->frieght;
+	    $model->trip_profit = $params['totalexpense']-$params['frieght'];
+	    $model->trip_status = 0;
+
+	    if($model->save()) { 
+	  		$Lpay = $this->findLpay($id);
+	    	$Lpay->total_frieght = $params['frieght'];
 	    	$Lpay->save(); 
 
 	    	$vehicle = $this->findVehicle($model->vehicle_id); 
 	    	$vehicle->ltrip = 0;
-	    	$vehicle->save();   
+	    	$vehicle->save(); 
+	    	
 	      	$this->setHeader(200);
 	      	echo json_encode(array('status'=>"success"),JSON_PRETTY_PRINT);        
 	    } 
@@ -257,6 +276,7 @@ class LtripController extends \yii\web\Controller
 	}
   
   	protected function findModel($id) { 
+
 	    if (($model = Ltrip::findOne(['trip_id' => $id])) !== null) {
 	    return $model;
 	    }
@@ -274,6 +294,16 @@ class LtripController extends \yii\web\Controller
         } else {
             return 0;
             //throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+      protected function findLpay($id)
+    {  
+        if (($model = Lpayment::findOne(['trip_id' => $id])) !== null) {
+            return $model;           
+        } else {
+            $this->setHeader(400);
+	      echo json_encode(array('status'=>"error",'data'=>array('message'=>'Bad request')),JSON_PRETTY_PRINT);
+	      exit;
         }
     }
  	
