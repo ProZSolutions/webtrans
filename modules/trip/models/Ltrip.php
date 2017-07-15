@@ -173,13 +173,10 @@ class Ltrip extends \yii\db\ActiveRecord
     {
         $query= new Query;
         $query ->from('ltrip AS t') //table name          
-<<<<<<< HEAD
-            ->select(['t.trip_id AS tripId','t.trip_no AS tripNo','v.vehicle_no AS vehicleNo', 'd.name AS driverName',"DATE_FORMAT(t.load_date, '%d-%m-%Y') as loadDate",'t.origin','t.destination','t.total_km as totalKm','t.corp_km as corpKm','t.load_weight as loadWeight','t.trip_diesel as tripDiesel','t.diesel_amount as dieselAmount',"DATE_FORMAT(t.unloaded_date, '%d-%m-%Y') as unloadedDate",'t.trip_advance AS tripDavance','t.trip_expenses as tripExpense','t.frieght','t.totalexpense','t.trip_profit as tripProfit'])
-=======
-            ->select(['t.trip_id AS tripId','t.trip_no AS tripNo','v.vehicle_no AS vehicleNo', 'd.name AS driverName','t.load_date as loadDate','t.origin','t.destination','t.total_km as totalKm','t.corp_km as corpKm','t.load_weight as loadWeight','t.trip_diesel as tripDiesel','t.diesel_amount as dieselAmount','t.unloaded_date as unloadedDate','t.trip_advance AS tripDavance','t.trip_expenses as tripExpense','t.frieght','t.totalexpense','t.trip_profit as tripProfit'])
->>>>>>> a5965e7b0ed43f95635dd0d5729c9dc08df4e67b
+            ->select(['t.trip_id AS tripId','t.trip_no AS tripNo','v.vehicle_no AS vehicleNo', 'd.name AS driverName',"DATE_FORMAT(t.load_date, '%d-%m-%Y') as loadDate",'t.origin','t.destination','t.total_km as totalKm','t.corp_km as corpKm','t.load_weight as loadWeight','t.trip_diesel as tripDiesel','t.diesel_amount as dieselAmount',"DATE_FORMAT(t.unloaded_date, '%d-%m-%Y') as unloadDate",'t.trip_advance AS tripDavance','t.trip_expenses as tripExpense','t.frieght','t.totalexpense','t.trip_profit as tripProfit'])
             ->innerJoin('vehicle AS v', 'v.vehicle_id = t.vehicle_id')
-            ->innerJoin('driver AS d', 'd.driver_id = t.driver_id');                   
+            ->innerJoin('driver AS d', 'd.driver_id = t.driver_id')
+            ->orderBy('t.trip_id DESC');                   
         $command = $query->createCommand();
         $models = $command->queryAll(); 
         return $models; 
@@ -188,22 +185,14 @@ class Ltrip extends \yii\db\ActiveRecord
     {
         $query= new Query;
         $query ->from('ltrip AS t') //table name          
-<<<<<<< HEAD
-            ->select(['t.trip_id AS tripId','t.trip_no AS tripNo','v.vehicle_no AS vehicleNo', 'd.name AS driverName','t.driver_id AS driverId',"DATE_FORMAT(t.load_date, '%d-%m-%Y') as loadDate",'t.origin','t.destination','t.total_km as totalKm','t.corp_km as corpKm','t.load_weight as loadWeight','t.trip_diesel as tripDiesel','t.diesel_amount as dieselAmount',"DATE_FORMAT(t.unloaded_date, '%d-%m-%Y') as unloadedDate",'t.trip_advance AS tripAdvance','t.trip_expenses as tripExpense','t.frieght','t.totalexpense','t.trip_profit as tripProfit','c.card_no as cardNo','c.card_id as cardId','b.acc_no as accNo','b.dbank_id as bankId','t.trip_status AS tripStatus'])
+            ->select(['t.trip_id AS tripId','t.trip_no AS tripNo','v.vehicle_no AS vehicleNo', 'd.name AS driverName','t.driver_id AS driverId',"DATE_FORMAT(t.load_date, '%d-%m-%Y') as loadDate",'t.origin','t.destination','t.total_km as totalKm','t.corp_km as corpKm','t.load_weight as loadWeight','t.trip_diesel as tripDiesel','t.diesel_amount as dieselAmount',"DATE_FORMAT(t.unloaded_date, '%d-%m-%Y') as unloadDate",'t.trip_advance AS tripAdvance','t.trip_expenses as tripExpense','t.frieght','t.totalexpense','t.trip_profit as tripProfit','c.card_no as cardNo','c.card_id as cardId','b.acc_no as accNo','b.dbank_id as bankId','t.trip_status AS tripStatus'])
             ->innerJoin('vehicle AS v', 'v.vehicle_id = t.vehicle_id')
             ->innerJoin('driver AS d', 'd.driver_id = t.driver_id')
             ->leftJoin('card AS c', 'c.vehicle_id = v.vehicle_id')
             ->leftJoin('dbank AS b', 'b.driver_id = d.driver_id')
-            ->andWhere(['t.trip_id'=> $id]); 
+            ->andWhere(['t.trip_id'=> $id]) 
+            ->orderBy('t.trip_id DESC');    
                              
-=======
-            ->select(['t.trip_id AS tripId','t.trip_no AS tripNo','v.vehicle_no AS vehicleNo', 'd.name AS driverName','t.driver_id AS driverId','t.load_date as loadDate','t.origin','t.destination','t.total_km as totalKm','t.corp_km as corpKm','t.load_weight as loadWeight','t.trip_diesel as tripDiesel','t.diesel_amount as dieselAmount','t.unloaded_date as unloadedDate','t.trip_advance AS tripAdvance','t.trip_expenses as tripExpense','t.frieght','t.totalexpense','t.trip_profit as tripProfit','c.card_no as cardNo','c.card_id as cardId','b.acc_no as accNo','b.dbank_id as bankId'])
-            ->innerJoin('vehicle AS v', 'v.vehicle_id = t.vehicle_id')
-            ->innerJoin('driver AS d', 'd.driver_id = t.driver_id')
-            ->innerJoin('card AS c', 'c.vehicle_id = v.vehicle_id')
-            ->leftJoin('dbank AS b', 'b.driver_id = d.driver_id')
-            ->andWhere(['t.trip_id'=> $id]);                   
->>>>>>> a5965e7b0ed43f95635dd0d5729c9dc08df4e67b
         $command = $query->createCommand();
         $models = $command->queryAll(); 
         return $models; 
@@ -215,7 +204,6 @@ class Ltrip extends \yii\db\ActiveRecord
             ->select(['t.trip_id AS tripId','t.trip_no AS tripNo','v.vehicle_no as vehicleNo','t.trip_advance AS tripAdvance','t.totalexpense','t.diesel_amount as dieselAmount','t.trip_expenses as tripExpense'])
             ->innerJoin('driver AS d', 'd.driver_id = t.driver_id')
             ->innerJoin('vehicle AS v', 'v.vehicle_id = t.vehicle_id')
-<<<<<<< HEAD
             
             ->andWhere(['t.trip_status'=> 2]);      
                                  
@@ -231,7 +219,8 @@ class Ltrip extends \yii\db\ActiveRecord
             ->innerJoin('driver AS d', 'd.driver_id = t.driver_id')
             ->innerJoin('vehicle AS v', 'v.vehicle_id = t.vehicle_id')
             
-            ->andWhere(['t.trip_status'=> 1]);      
+            ->andWhere(['t.trip_status'=> 1])
+            ->orderBy('t.trip_id DESC');      
                                  
         $command = $query->createCommand();
         $models = $command->queryAll(); 
@@ -244,12 +233,8 @@ class Ltrip extends \yii\db\ActiveRecord
             ->select(['t.trip_id AS tripId','t.trip_no AS tripNo','v.vehicle_no as vehicleNo','t.trip_advance AS tripAdvance','t.totalexpense','t.diesel_amount as dieselAmount','t.trip_expenses as tripExpense'])
             ->leftJoin('driver AS d', 'd.driver_id = t.driver_id')
             ->innerJoin('vehicle AS v', 'v.vehicle_id = t.vehicle_id')           
-            ->andWhere(['t.trip_status'=> 0]);      
-=======
-            ->andWhere(['v.ltrip'=> 1])
-            ->andWhere(['t.trip_status'=> 2])
-            ->orWhere(['t.trip_status'=> 1]);
->>>>>>> a5965e7b0ed43f95635dd0d5729c9dc08df4e67b
+            ->andWhere(['t.trip_status'=> 0])
+            ->orderBy('t.trip_id DESC');          
                                  
         $command = $query->createCommand();
         $models = $command->queryAll(); 

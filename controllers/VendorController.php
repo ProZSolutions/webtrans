@@ -64,7 +64,8 @@ class VendorController extends \yii\web\Controller
     $query ->from('vendor')         
     	->select(['vendor.vendor_id AS vendorId','vendor.transport_id AS transportId','transport.name AS transportName','vendor.vendor_code AS vendorCode', 'vendor.vendor_corp as vendorCorp'])
 	    ->innerJoin('transport', 'transport.transport_id = vendor.transport_id')
-      ->where(['vendor.is_active' => 1]);
+      ->where(['vendor.is_active' => 1])
+      ->orderBy('vendor.vendor_id DESC'); 
     $command = $query->createCommand();
     $models = $command->queryAll();  
     $this->setHeader(200);     

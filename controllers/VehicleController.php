@@ -54,7 +54,8 @@ class VehicleController extends \yii\web\Controller
 	    $query ->from('vehicle') //table name          
 	    	->select(['vehicle.vehicle_id as vehicleId','vehicle.vehicle_no AS vehicleNo','vehicle.type','transport.name','vehicle.engine_no AS engineNo', 'vehicle.chasis_no AS chasisNo','vendor.vendor_id as vendorId','vehicle.corporation','vendor.vendor_code as vendorCode'])
 		    ->innerJoin('vendor', 'vendor.vendor_id = vehicle.vendor_id')
-        ->innerJoin('transport', 'vendor.transport_id = transport.transport_id');  	             
+        ->innerJoin('transport', 'vendor.transport_id = transport.transport_id')
+        ->orderBy('vehicle.vehicle_id DESC');  	             
 	    $command = $query->createCommand();
 	    $models = $command->queryAll();  
 	    $this->setHeader(200);     

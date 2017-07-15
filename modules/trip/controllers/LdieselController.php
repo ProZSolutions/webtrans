@@ -50,11 +50,7 @@ class LdieselController extends \yii\web\Controller
   	public function actionIndex() {         
 	    $query= new Query;
 	    $query ->from('ldiesel AS d')     
-<<<<<<< HEAD
 	    	->select(['d.ldiesel_id as dieselId','d.payment_mode as payMode','d.card_id as cardId','card.card_no as cardNo',"DATE_FORMAT(d.fill_date, '%d-%m-%Y') as fillDate",'d.diesel_price as dieselPrice','d.total_diesel as totalDiesel','d.diesel_amount as dieselAmount','d.place'])
-=======
-	    	->select(['d.ldiesel_id as dieselId','d.payment_mode as payMode','d.card_id as cardId','card.card_no as cardNo','d.fill_date as fillDate','d.diesel_price as dieselPrice','d.total_diesel as totalDiesel','d.diesel_amount as dieselAmount','d.place'])
->>>>>>> a5965e7b0ed43f95635dd0d5729c9dc08df4e67b
 	    	->leftJoin('card', 'card.card_id = d.card_id')  ;	           
 	    $command = $query->createCommand();
 	    $models = $command->queryAll();  
@@ -65,11 +61,7 @@ class LdieselController extends \yii\web\Controller
   	public function actionViewDiesel($id) {         
 	    $query= new Query;
 	    $query ->from('ldiesel AS d')     
-<<<<<<< HEAD
 	    	->select(['d.trip_id as tripId','d.ldiesel_id as dieselId','d.payment_mode as payMode','d.card_id as cardId','card.card_no as cardNo',"DATE_FORMAT(d.fill_date, '%d-%m-%Y') as fillDate",'d.diesel_price as dieselPrice','d.total_diesel as totalDiesel','d.diesel_amount as dieselAmount','d.place'])
-=======
-	    	->select(['d.trip_id as tripId','d.ldiesel_id as dieselId','d.payment_mode as payMode','d.card_id as cardId','card.card_no as cardNo','d.fill_date as fillDate','d.diesel_price as dieselPrice','d.total_diesel as totalDiesel','d.diesel_amount as dieselAmount','d.place'])
->>>>>>> a5965e7b0ed43f95635dd0d5729c9dc08df4e67b
 	    	->leftJoin('card', 'card.card_id = d.card_id') 
 	    	->andWhere(['d.ldiesel_id'=> $id]);	           
 	    $command = $query->createCommand();
@@ -80,13 +72,10 @@ class LdieselController extends \yii\web\Controller
   	public function actionGetDiesel($id) {         
 	    $query= new Query;
 	    $query ->from('ldiesel AS d')     
-<<<<<<< HEAD
 	    	->select(['d.trip_id as tripId','d.ldiesel_id as dieselId','d.payment_mode as payMode','card.card_no as cardNo',"DATE_FORMAT(d.fill_date, '%d-%m-%Y') as fillDate",'d.diesel_price as dieselPrice','d.total_diesel as totalDiesel','d.diesel_amount as dieselAmount','d.place'])
-=======
-	    	->select(['d.trip_id as tripId','d.ldiesel_id as dieselId','d.payment_mode as payMode','card.card_no as cardNo','d.fill_date as fillDate','d.diesel_price as dieselPrice','d.total_diesel as totalDiesel','d.diesel_amount as dieselAmount','d.place'])
->>>>>>> a5965e7b0ed43f95635dd0d5729c9dc08df4e67b
 	    	->leftJoin('card', 'card.card_id = d.card_id') 
-	    	->andWhere(['d.trip_id'=> $id]);	           
+	    	->andWhere(['d.trip_id'=> $id])
+	    	->orderBy('d.ldiesel_id DESC');;	           
 	    $command = $query->createCommand();
 	    $models = $command->queryAll();  
 	    $this->setHeader(200);     
@@ -98,7 +87,7 @@ class LdieselController extends \yii\web\Controller
 	    $params = json_decode($post, true);	 
 
 	    $model = new Ldiesel();  
-	    $model->trip_id = $params['tripId'];  
+	    $model->trip_id = $params[0]['tripId'];  
 	    $model->payment_mode = $params['payMode'];
 	    $model->fill_date = date('Y-m-d', strtotime($params['fillDate']));    
 	    if($model->payment_mode == 'Card') {   
@@ -114,8 +103,7 @@ class LdieselController extends \yii\web\Controller
             
             $modeltrip = $this->findLtrip($model->trip_id);            
             $modeltrip->trip_diesel = $totDiesel; 
-            $modeltrip->diesel_amount = $total;
-          
+            $modeltrip->diesel_amount = $total;          
            $modeltrip->save();
 
            $modelExp = $this->findLtrip($modeltrip->trip_id); 
@@ -145,16 +133,20 @@ class LdieselController extends \yii\web\Controller
 	    $model->diesel_amount = $params['dieselPrice']*$params['totalDiesel']; 
 	    $model->place = $params['place'];      
 	    if ($model->save()) {  
+
 	    	$total = $this->findSum($model->trip_id);
             $totDiesel = $this->findSumDiesel($model->trip_id);
-            $modeltrip = $this->findLtrip($model->trip_id);
-          
+            $modeltrip = $this->findLtrip($model->trip_id);          
             $modeltrip->trip_diesel = $totDiesel;
-            $modeltrip->diesel_amount = $total;
-            
+            $modeltrip->diesel_amount = $total;            
             $modeltrip->save(); 
-            $modelExp = $this->findLtrip($modeltrip->trip_id); 
-           $modelExp->totalexpense =  $this->findSumOfExp($modelExp->trip_id);
+
+            $modelExp = $this->findLtrip($modeltrip->trip_id);           
+            $amt = $this->findSumOfExp($modelExp->trip_id);
+            $pro = $modelExp->frieght;
+         
+           $modelExp->totalexpense = $amt ;
+           $modelExp->trip_profit = $pro - $amt;
            $modelExp->save();  
 	    $this->setHeader(200);
 	    echo json_encode(array('status'=>"success"),JSON_PRETTY_PRINT);        
@@ -209,7 +201,7 @@ class LdieselController extends \yii\web\Controller
      protected function findSumOfExp($id)
     {  
         if (($model = Ltrip::find()->andWhere(['trip_id' => $id])
-            ->sum('diesel_amount + trip_advance + trip_expenses')) !== null) {
+            ->sum('diesel_amount + trip_expenses')) !== null) {
             return $model;            
         } else {
             return 0;

@@ -87,7 +87,8 @@ class BillList extends \yii\db\ActiveRecord
         $query= new Query;//refer from use yii\db\Query.It is initialize start the prg
         $query ->from('bill_list') //table name          
         ->select(['bill_list.bill_id as billId','vehicle.vehicle_no as vehicleNo','bill_list.type',"DATE_FORMAT(bill_list.from, '%d-%m-%Y') as fromDate", "DATE_FORMAT(bill_list.to, '%d-%m-%Y') as toDate",'bill_list.amount',"DATE_FORMAT(bill_list.paid_date, '%d-%m-%Y') as paidDate",'bill_list.num as billNo','vehicle.vehicle_id as vehicleId'])
-        ->innerJoin('vehicle', 'vehicle.vehicle_id = bill_list.vehicle_id');                     
+        ->innerJoin('vehicle', 'vehicle.vehicle_id = bill_list.vehicle_id')
+        ->orderBy('bill_list.bill_id DESC');                      
         $command = $query->createCommand();
         $models = $command->queryAll();  
         return $models;

@@ -52,14 +52,11 @@ class DriverPayController extends \yii\web\Controller
   	public function actionIndex() {         
 	    $query= new Query;//refer from use yii\db\Query.It is initialize start the prg
 	    $query ->from('dpayment AS dp') //table name          
-<<<<<<< HEAD
 	    	->select(['dp.payment_id as paymentId','dp.driver_id AS driverId','driver.name','dp.mode','dp.amount', 'dp.dbank_id AS bankId','dbank.acc_no as accNo',"DATE_FORMAT(dp.date, '%d-%m-%Y') as date",'dp.for', 'dp.trip_id as tripId', 'ltrip.trip_no as tripNo'])
-=======
-	    	->select(['dp.payment_id as paymentId','dp.driver_id AS driverId','driver.name','dp.mode','dp.amount', 'dp.dbank_id AS bankId','dbank.acc_no as accNo','dp.date','dp.for', 'dp.trip_id as tripId', 'ltrip.trip_no as tripNo'])
->>>>>>> a5965e7b0ed43f95635dd0d5729c9dc08df4e67b
 		    ->innerJoin('driver', 'driver.driver_id = dp.driver_id')
         ->innerJoin('dbank', 'dbank.dbank_id = dp.dbank_id')
-        ->innerJoin('ltrip', 'ltrip.trip_id = dp.trip_id');		              
+        ->innerJoin('ltrip', 'ltrip.trip_id = dp.trip_id');	
+        ->orderBy('dp.payment_id DESC');	              
 	    $command = $query->createCommand();
 	    $models = $command->queryAll();  
 	    $this->setHeader(200);     
@@ -70,11 +67,7 @@ class DriverPayController extends \yii\web\Controller
        
       $query= new Query;        
       $query ->from('dpayment AS dp') //table name          
-<<<<<<< HEAD
         ->select(['dp.payment_id as paymentId','dp.driver_id AS driverId','driver.name','dp.mode','dp.amount', 'dp.dbank_id AS bankId','dbank.acc_no as accNo',"DATE_FORMAT(dp.date, '%d-%m-%Y') as date",'dp.for', 'dp.trip_id as tripId', 'ltrip.trip_no as tripNo'])
-=======
-        ->select(['dp.payment_id as paymentId','dp.driver_id AS driverId','driver.name','dp.mode','dp.amount', 'dp.dbank_id AS bankId','dbank.acc_no as accNo','dp.date','dp.for', 'dp.trip_id as tripId', 'ltrip.trip_no as tripNo'])
->>>>>>> a5965e7b0ed43f95635dd0d5729c9dc08df4e67b
         ->innerJoin('driver', 'driver.driver_id = dp.driver_id')
         ->leftJoin('dbank', 'dbank.dbank_id = dp.dbank_id')
         ->innerJoin('ltrip', 'ltrip.trip_id = dp.trip_id') 
@@ -89,15 +82,12 @@ class DriverPayController extends \yii\web\Controller
        public function actionGetPayment($id) { 
       $query= new Query;        
       $query ->from('dpayment AS dp') //table name          
-<<<<<<< HEAD
         ->select(['dp.payment_id as paymentId','dp.driver_id AS driverId','driver.name','dp.mode','dp.amount', 'dp.dbank_id AS bankId','dbank.acc_no as accNo',"DATE_FORMAT(dp.date, '%d-%m-%Y') as date",'dp.for', 'dp.trip_id as tripId', 'ltrip.trip_no as tripNo'])
-=======
-        ->select(['dp.payment_id as paymentId','dp.driver_id AS driverId','driver.name','dp.mode','dp.amount', 'dp.dbank_id AS bankId','dbank.acc_no as accNo','dp.date','dp.for', 'dp.trip_id as tripId', 'ltrip.trip_no as tripNo'])
->>>>>>> a5965e7b0ed43f95635dd0d5729c9dc08df4e67b
         ->innerJoin('driver', 'driver.driver_id = dp.driver_id')
         ->leftJoin('dbank', 'dbank.dbank_id = dp.dbank_id')
         ->innerJoin('ltrip', 'ltrip.trip_id = dp.trip_id') 
-        ->andWhere(['dp.payment_id'=> $id]);            
+        ->andWhere(['dp.payment_id'=> $id])
+        ->orderBy('dp.payment_id DESC');            
       $command = $query->createCommand();
       $models = $command->queryAll();  
       $this->setHeader(200);     

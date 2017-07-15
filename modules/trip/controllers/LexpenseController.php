@@ -68,7 +68,8 @@ class LexpenseController extends \yii\web\Controller {
 	    $query= new Query;
 	    $query ->from('lexpense AS t')         
 	    	->select(['t.trip_id as tripId','t.expense_id as expenseId','t.load_wages loadWages','t.phone','t.spare','t.cliner','t.driver','t.toll','t.rto','t.other'])
-		   	->where(['trip_id'=>$id]);	           
+		   	->where(['trip_id'=>$id])
+		   	->orderBy('t.expense_id DESC');	           
 	    $command = $query->createCommand();
 	    $models = $command->queryAll();  
 	    $this->setHeader(200);     
@@ -95,7 +96,8 @@ class LexpenseController extends \yii\web\Controller {
         	$modeltrip = $this->findLtrip($model->trip_id); 
         	$modeltrip->trip_expenses = $total;           
         	$modeltrip->save(); 
-        	 $modelExp = $this->findLtrip($modeltrip->trip_id); 
+
+        	$modelExp = $this->findLtrip($modeltrip->trip_id); 
            $modelExp->totalexpense =  $this->findSumOfExp($modelExp->trip_id);
            $modelExp->save();    
 	      	$this->setHeader(200);
@@ -126,9 +128,20 @@ class LexpenseController extends \yii\web\Controller {
         	$modeltrip = $this->findLtrip($model->trip_id); 
         	$modeltrip->trip_expenses = $total;           
         	$modeltrip->save(); 
-        	 $modelExp = $this->findLtrip($modeltrip->trip_id); 
-           $modelExp->totalexpense =  $this->findSumOfExp($modelExp->trip_id);
-           $modelExp->save();      
+
+        	// $modelExp = $this->findLtrip($modeltrip->trip_id); 
+         //   $modelExp->totalexpense =  $this->findSumOfExp($modelExp->trip_id);
+         //   $modelExp->save();    
+
+
+
+           $modelExp = $this->findLtrip($modeltrip->trip_id);           
+            $amt = $this->findSumOfExp($modelExp->trip_id);
+            $pro = $modelExp->frieght;
+         
+           $modelExp->totalexpense = $amt ;
+           $modelExp->trip_profit = $pro - $amt;
+           $modelExp->save();    
 	    	$this->setHeader(200);
 	      	echo json_encode(array('status'=>"success"),JSON_PRETTY_PRINT);        
 	    } 
@@ -184,7 +197,7 @@ class LexpenseController extends \yii\web\Controller {
       protected function findSumOfExp($id)
     {  
         if (($model = Ltrip::find()->andWhere(['trip_id' => $id])
-            ->sum('diesel_amount + trip_advance + trip_expenses')) !== null) {
+            ->sum('diesel_amount + trip_expenses')) !== null) {
             return $model;            
         } else {
             return 0;

@@ -52,7 +52,8 @@ class CardDepositController extends \yii\web\Controller
 	    	->select(['cdeposit.vehicle_id as vehicleId','cdeposit.tbank_id as bankId','tbank.acc_no AS accountNo','cdeposit.card_id as cardId','cdeposit.cdeposit_id as depositId','vehicle.vehicle_no as vehicleNo','card.card_no AS cardNo','cdeposit.amount',"DATE_FORMAT(cdeposit.date, '%d-%m-%Y') as date",'cdeposit.deposit_by as depositBy'])
 		    ->innerJoin('vehicle', 'vehicle.vehicle_id = cdeposit.vehicle_id')
 		    ->innerJoin('card', 'card.card_id = cdeposit.card_id')
-		    ->innerJoin('tbank', 'tbank.tbank_id = cdeposit.tbank_id');		              
+		    ->innerJoin('tbank', 'tbank.tbank_id = cdeposit.tbank_id')
+        ->orderBy('cdeposit.cdeposit_id DESC'); 	              
 	    $command = $query->createCommand();
 	    $models = $command->queryAll();  
 	    $this->setHeader(200);     

@@ -72,7 +72,8 @@ class TransportBankController extends \yii\web\Controller
      $query ->from('tbank') //table name          
     	->select(['tbank.tbank_id AS bankId','tbank.transport_id as transportId','transport.name','tbank.bank_name AS bankName', 'tbank.acc_no AS accountNo','tbank.branch AS branch','tbank.ifsc AS ifscCode'])
 	    ->innerJoin('transport', 'transport.transport_id = tbank.transport_id')
-	    ->andWhere(['is_active'=> 1]);            
+	    ->andWhere(['is_active'=> 1])
+      ->orderBy('tbank.tbank_id DESC');           
     $command = $query->createCommand();
     $models = $command->queryAll();  
     $this->setHeader(200);     
@@ -85,7 +86,7 @@ class TransportBankController extends \yii\web\Controller
       ->select(['tbank.tbank_id AS bankId','tbank.transport_id as transportId','transport.name','tbank.bank_name AS bankName', 'tbank.acc_no AS accountNo','tbank.branch AS branch','tbank.ifsc AS ifscCode'])
       ->innerJoin('transport', 'transport.transport_id = tbank.transport_id')
       ->andWhere(['is_active'=> 1])
-      ->where(['tbank_id'=>$id]);            
+      ->where(['tbank_id'=>$id]);
     $command = $query->createCommand();
     $models = $command->queryAll();  
     $this->setHeader(200);     

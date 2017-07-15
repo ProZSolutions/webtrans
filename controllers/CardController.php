@@ -52,7 +52,8 @@ class CardController extends \yii\web\Controller
 	    $query ->from('card') //table name          
 	    	->select(['card.card_id as cardId','card.vehicle_id as vehicleId','card.card_no AS cardNo','card.corp AS corporation', 'vehicle.vehicle_no AS vehicleNo','card.cust_id AS custId'])
 		    ->innerJoin('vehicle', 'vehicle.vehicle_id = card.vehicle_id')
-		    ->andWhere(['is_active'=> 1]);            
+		    ->andWhere(['is_active'=> 1])
+        ->orderBy('card.card_id DESC');            
 	    $command = $query->createCommand();
 	    $models = $command->queryAll();  
 	    $this->setHeader(200);     

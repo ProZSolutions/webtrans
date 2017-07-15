@@ -147,7 +147,8 @@ class Driver extends \yii\db\ActiveRecord
         $query ->from('driver as d')    
             ->select(["DATE_FORMAT(d.expiry, '%d-%m-%Y') as expiry",'d.driver_id as driverId','d.name','d.license_no AS licenseNo','d.address','d.contact','d.refrence','d.license_type as licenseType','vehicle.vehicle_id as vehicleId','vehicle.vehicle_no as vehicleNo',"DATE_FORMAT(d.join_date, '%d-%m-%Y') as joinDate"])
             ->innerJoin('vehicle', 'vehicle.vehicle_id = d.vehicle_id')  
-            ->andWhere(['d.is_active'=> 1]);         
+            ->andWhere(['d.is_active'=> 1])
+            ->orderBy('d.driver_id DESC');         
         $command = $query->createCommand();
         $models = $command->queryAll(); 
         return $models;

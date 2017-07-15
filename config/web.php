@@ -95,6 +95,7 @@ $config = [
             'trip/ltrip/view-ltrip/<id:\w+>' => 'trip/ltrip/view-ltrip',
             'trip/ltrip/close-ltrip/<id:\w+>' => 'trip/ltrip/close-ltrip',
             'trip/ltrip/unload-ltrip/<id:\w+>' => 'trip/ltrip/unload-ltrip',
+            'trip/ltrip/update-unloadtrip/<id:\w+>' => 'trip/ltrip/update-unloadtrip',
 
             'trip/lexpense/update-expense/<id:\w+>' => 'trip/lexpense/update-expense',
             'trip/lexpense/delete-expense/<id:\w+>' => 'trip/lexpense/delete-expense',

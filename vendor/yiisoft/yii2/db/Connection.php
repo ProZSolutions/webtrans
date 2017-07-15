@@ -161,11 +161,7 @@ class Connection extends Component
      *
      * @see charset
      */
-<<<<<<< HEAD
     public $dsn ;
-=======
-    public $dsn;
->>>>>>> a5965e7b0ed43f95635dd0d5729c9dc08df4e67b
     /**
      * @var string the username for establishing DB connection. Defaults to `null` meaning no username to use.
      */

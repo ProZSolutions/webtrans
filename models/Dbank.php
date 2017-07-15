@@ -108,7 +108,8 @@ class Dbank extends \yii\db\ActiveRecord
         $query ->from('dbank as db') //table name     
             ->select(['db.dbank_id as bankId','db.bank_name AS bankName','db.acc_no AS accountNo', 'db.branch','db.ifsc'])
             ->innerJoin('driver', 'driver.driver_id = db.driver_id')  
-            ->andWhere(['db.is_active'=> 1]);         
+            ->andWhere(['db.is_active'=> 1])
+            ->orderBy('db.dbank_id DESC');         
         $command = $query->createCommand();
         $models = $command->queryAll();
         return $models;
@@ -119,7 +120,8 @@ class Dbank extends \yii\db\ActiveRecord
         $query ->from('dbank as db') //table name     
             ->select(['db.dbank_id as bankId','db.bank_name AS bankName','db.acc_no AS accountNo', 'db.branch','db.ifsc'])
             ->innerJoin('driver', 'driver.driver_id = db.driver_id')  
-            ->andWhere(['db.is_active'=> 1,'db.driver_id'=>$id]);         
+            ->andWhere(['db.is_active'=> 1,'db.driver_id'=>$id])
+            ->orderBy('db.dbank_id DESC');         
         $command = $query->createCommand();
         $models = $command->queryAll();
         return $models;

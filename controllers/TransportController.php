@@ -51,7 +51,8 @@ class TransportController extends \yii\web\Controller
   public function actionIndex() {         
     $query= new Query;
     $query ->from('transport') //table name     
-    ->select("transport_id as transportId,name,owner");           
+    ->select("transport_id as transportId,name,owner")
+    ->orderBy('transport_id DESC');           
     $command = $query->createCommand();
     $models = $command->queryAll();  
     $this->setHeader(200);     
