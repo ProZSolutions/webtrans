@@ -55,7 +55,7 @@ class DriverPayController extends \yii\web\Controller
 	    	->select(['dp.payment_id as paymentId','dp.driver_id AS driverId','driver.name','dp.mode','dp.amount', 'dp.dbank_id AS bankId','dbank.acc_no as accNo',"DATE_FORMAT(dp.date, '%d-%m-%Y') as date",'dp.for', 'dp.trip_id as tripId', 'ltrip.trip_no as tripNo'])
 		    ->innerJoin('driver', 'driver.driver_id = dp.driver_id')
         ->innerJoin('dbank', 'dbank.dbank_id = dp.dbank_id')
-        ->innerJoin('ltrip', 'ltrip.trip_id = dp.trip_id');	
+        ->innerJoin('ltrip', 'ltrip.trip_id = dp.trip_id')
         ->orderBy('dp.payment_id DESC');	              
 	    $command = $query->createCommand();
 	    $models = $command->queryAll();  

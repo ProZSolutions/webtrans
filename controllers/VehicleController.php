@@ -21,7 +21,8 @@ class VehicleController extends \yii\web\Controller
           'update-vehicle'=>['post','options'],
           'delete-vehicle'=>['post','options'],  
           'view-vehicle'=>['post','options'],  
-          'get-vehicle'=>['get','options'],                      
+          'get-vehicle'=>['get','options'],   
+          'trip-vehicle'=>['get','options'],                      
         ],        
       ]
     ];
@@ -62,11 +63,21 @@ class VehicleController extends \yii\web\Controller
 	    echo json_encode(array_filter($models),JSON_UNESCAPED_SLASHES); 
     //convert json format    
   	} 
-      public function actionGetVehicle() {         
+      public function actionTripVehicle() {         
       $query= new Query;//refer from use yii\db\Query.It is initialize start the prg
       $query ->from('vehicle') //table name          
         ->select(['vehicle.vehicle_id as vehicleId','vehicle.vehicle_no AS vehicleNo'])
         ->andWhere(['ltrip'=>0]);                
+      $command = $query->createCommand();
+      $models = $command->queryAll();  
+      $this->setHeader(200);     
+      echo json_encode(array_filter($models),JSON_UNESCAPED_SLASHES); 
+    //convert json format    
+    } 
+      public function actionGetVehicle() {         
+      $query= new Query;//refer from use yii\db\Query.It is initialize start the prg
+      $query ->from('vehicle') //table name          
+        ->select(['vehicle.vehicle_id as vehicleId','vehicle.vehicle_no AS vehicleNo']);                
       $command = $query->createCommand();
       $models = $command->queryAll();  
       $this->setHeader(200);     
@@ -124,7 +135,7 @@ class VehicleController extends \yii\web\Controller
     $model->vehicle_no = $params['vehicleNo'];   
     $model->engine_no = $params['engineNo']; 
     $model->chasis_no = $params['chasisNo'];
-    $model->corporation = $params['vendorCorp'];   
+    $model->corporation = $params['corporation'];   
     $model->type = 0;      
     if ($model->save()) {  
     $exp->vehicle_id = $model->vehicle_id; 

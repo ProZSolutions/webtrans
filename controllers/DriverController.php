@@ -81,7 +81,7 @@ class DriverController extends \yii\web\Controller
 	   
 	    if ($model->save()) {      
 	      $this->setHeader(200);
-	      echo json_encode(array('status'=>"success",'value'=>array_filter($model->driver_id)),JSON_PRETTY_PRINT);        
+	      echo json_encode(array('status'=>"success",'value'=>array($model->driver_id)),JSON_PRETTY_PRINT);        
 	    } 
 	    else {
 	      $this->setHeader(400);

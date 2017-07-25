@@ -92,7 +92,7 @@ class VendorController extends \yii\web\Controller
     $model->transport_id = $params['transportId'];  
     $model->vendor_code = $params['vendorCode'];     
     $model->vendor_corp = $params['vendorCorp'];  
-    $model->user_id = 001; 
+  
     if ($model->save()) {      
       $this->setHeader(200);
       echo json_encode(array('status'=>"success"),JSON_PRETTY_PRINT);        
@@ -111,7 +111,7 @@ class VendorController extends \yii\web\Controller
     $model->transport_id = $params['transportId'];  
     $model->vendor_code = $params['vendorCode'];     
     $model->vendor_corp = $params['vendorCorp'];  
-    $model->user_id = 001;     
+      
     if ($model->save()) {      
       $this->setHeader(200);
       echo json_encode(array('status'=>"success"),JSON_PRETTY_PRINT);        

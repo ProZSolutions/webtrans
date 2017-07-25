@@ -158,7 +158,7 @@ class LtripController extends \yii\web\Controller
  	}
  	public function actionAdvance() {  
 	    $post = file_get_contents("php://input");	   
-	    $params = json_decode($post, true);	  
+	    $params = json_decode($post, true);	   	    
 	    $model = $this->findModel($params[0]['tripId']); 
 	    $model->trip_advance = $params['amount'];    
 	    if ($model->save()) {
@@ -172,7 +172,7 @@ class LtripController extends \yii\web\Controller
     			$pay->date = date('Y-m-d', strtotime($params['fillDate']));
     			$pay->for = 'adv'; 
     			$pay->trip_id = $params[0]['tripId']; 
-			   $pay->save();
+			   	$pay->save();			   
 
 
 			    $total = $this->sumOfAdvance($model->trip_id); 
