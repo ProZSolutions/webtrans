@@ -88,7 +88,7 @@ class LdieselController extends \yii\web\Controller
 
 	    $model = new Ldiesel();  
 	    $model->trip_id = $params[0]['tripId'];  
-	    $model->payment_mode = $params['payMode'];
+	    $model->payment_mode = $params['payMode']['name'];
 	    $model->fill_date = date('Y-m-d', strtotime($params['fillDate']));    
 	    if($model->payment_mode == 'Card') {   
 	    	$model->card_id = $params['cardId']; 
@@ -107,8 +107,21 @@ class LdieselController extends \yii\web\Controller
            $modeltrip->save();
 
            $modelExp = $this->findLtrip($modeltrip->trip_id); 
-           $modelExp->totalexpense =  $this->findSumOfExp($modelExp->trip_id);
-           $modelExp->save();
+           $amt = $this->findSumOfExp($modelExp->trip_id);
+           $pro = $modelExp->frieght;
+         
+           $modelExp->totalexpense = $amt ;
+           $modelExp->trip_profit = $pro - $amt;
+           $modelExp->save();        
+
+
+           // $modelExp = $this->findLtrip($modeltrip->trip_id);           
+           //  $amt = $this->findSumOfExp($modelExp->trip_id);
+           //  $pro = $modelExp->frieght;
+         
+           // $modelExp->totalexpense = $amt ;
+           // $modelExp->trip_profit = $pro - $amt;
+           // $modelExp->save(); 
 	      	$this->setHeader(200);
 	      	echo json_encode(array('status'=>"success"),JSON_PRETTY_PRINT);       
 	    } 

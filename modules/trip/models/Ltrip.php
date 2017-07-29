@@ -1,5 +1,6 @@
 <?php
 
+
 namespace app\modules\trip\models;
 use Yii;
 use app\models\Driver;
@@ -186,10 +187,10 @@ class Ltrip extends \yii\db\ActiveRecord
         $query= new Query;
         $query ->from('ltrip AS t') //table name          
             ->select(['t.trip_id AS tripId','t.trip_no AS tripNo','v.vehicle_no AS vehicleNo', 'd.name AS driverName','t.driver_id AS driverId',"DATE_FORMAT(t.load_date, '%d-%m-%Y') as loadDate",'t.origin','t.destination','t.total_km as totalKm','t.corp_km as corpKm','t.load_weight as loadWeight','t.trip_diesel as tripDiesel','t.diesel_amount as dieselAmount',"DATE_FORMAT(t.unloaded_date, '%d-%m-%Y') as unloadDate",'t.trip_advance AS tripAdvance','t.trip_expenses as tripExpense','t.frieght','t.totalexpense','t.trip_profit as tripProfit','c.card_no as cardNo','c.card_id as cardId','b.acc_no as accNo','b.dbank_id as bankId','t.trip_status AS tripStatus'])
-            ->innerJoin('vehicle AS v', 'v.vehicle_id = t.vehicle_id')
-            ->innerJoin('driver AS d', 'd.driver_id = t.driver_id')
-            ->leftJoin('card AS c', 'c.vehicle_id = v.vehicle_id')
-            ->leftJoin('dbank AS b', 'b.driver_id = d.driver_id')
+            ->leftJoin('vehicle AS v', 'v.vehicle_id = t.vehicle_id')
+            ->leftJoin('driver AS d', 'd.driver_id = t.driver_id')
+            ->leftJoin('card AS c', 'c.vehicle_id = t.vehicle_id')
+            ->leftJoin('dbank AS b', 'b.driver_id = t.driver_id')         
             ->andWhere(['t.trip_id'=> $id]) 
             ->orderBy('t.trip_id DESC');    
                              

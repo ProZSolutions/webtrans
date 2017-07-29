@@ -98,8 +98,12 @@ class LexpenseController extends \yii\web\Controller {
         	$modeltrip->save(); 
 
         	$modelExp = $this->findLtrip($modeltrip->trip_id); 
-           $modelExp->totalexpense =  $this->findSumOfExp($modelExp->trip_id);
-           $modelExp->save();    
+             $amt = $this->findSumOfExp($modelExp->trip_id);
+            $pro = $modelExp->frieght;
+         
+           $modelExp->totalexpense = $amt ;
+           $modelExp->trip_profit = $pro - $amt;
+           $modelExp->save();     
 	      	$this->setHeader(200);
 	      	echo json_encode(array('status'=>"success"),JSON_PRETTY_PRINT);        
 	    } 
@@ -136,9 +140,8 @@ class LexpenseController extends \yii\web\Controller {
 
 
            $modelExp = $this->findLtrip($modeltrip->trip_id);           
-            $amt = $this->findSumOfExp($modelExp->trip_id);
-            $pro = $modelExp->frieght;
-         
+           $amt = $this->findSumOfExp($modelExp->trip_id);
+           $pro = $modelExp->frieght;         
            $modelExp->totalexpense = $amt ;
            $modelExp->trip_profit = $pro - $amt;
            $modelExp->save();    

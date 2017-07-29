@@ -50,7 +50,7 @@ class VehicleController extends \yii\web\Controller
 	    return true;  
   	}   
  
-  	public function actionIndex() {         
+  	public function actionIndex() {        
 	    $query= new Query;//refer from use yii\db\Query.It is initialize start the prg
 	    $query ->from('vehicle') //table name          
 	    	->select(['vehicle.vehicle_id as vehicleId','vehicle.vehicle_no AS vehicleNo','vehicle.type','transport.name','vehicle.engine_no AS engineNo', 'vehicle.chasis_no AS chasisNo','vendor.vendor_id as vendorId','vehicle.corporation','vendor.vendor_code as vendorCode'])
@@ -101,7 +101,9 @@ class VehicleController extends \yii\web\Controller
     } 
  
 //create transport list
-  public function actionCreateVehicle() {      
+  public function actionCreateVehicle() {  
+    //$transaction = Yii::$app->db->beginTransaction();   
+       
     $post = file_get_contents("php://input");   
     $params = json_decode($post, true);       
     $model = new Vehicle();  //call Transport class from model  
@@ -113,7 +115,23 @@ class VehicleController extends \yii\web\Controller
     $model->corporation = $params['vendorCorp'];  
     $model->type = 0;  
     //$model->model = $params['model']; 
-    //$model->user_id = $params['userId'];    
+    //$model->user_id = $params['userId']; 
+     
+    // try  {
+    // if ($model->save() && ($expiry->vehicle_id = $model->vehicle_id) $expiry->save()) {
+    //     $transaction->commit();
+    //     $this->setHeader(200);
+    //     echo json_encode(array('status'=>"success"),JSON_PRETTY_PRINT); 
+    // } else {
+    //     $transaction->rollBack();
+    //      $this->setHeader(400);
+    //     echo json_encode(array('status'=>"error",'data'=>array_filter($model->errors)),JSON_PRETTY_PRINT);
+    // }
+    // } catch (Exception $e) {
+    // $transaction->rollBack();
+    // }   
+
+
     if($model->save()) {     
       $expiry->vehicle_id = $model->vehicle_id; 
       $expiry->save();  

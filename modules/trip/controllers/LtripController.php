@@ -130,6 +130,8 @@ class LtripController extends \yii\web\Controller
 	    $model = $this->findModel($id);        
 	    $model->unloaded_date = date('Y-m-d', strtotime($params['unloadDate']));     
 	    $model->total_km = $params['totalKm']; 
+	    $model->origin = $params['origin'];  
+	    $model->destination = $params['destination']; 
 	     $model->trip_status = 1;	  
 	    if ($model->save()) {      
 	    	$this->setHeader(200);
@@ -146,7 +148,9 @@ class LtripController extends \yii\web\Controller
 	    $model = new Ltrip(); 
 	    $model = $this->findModel($id);        
 	    $model->unloaded_date = date('Y-m-d', strtotime($params['unloadDate']));     
-	    $model->total_km = $params['totalKm'];	      
+	    $model->total_km = $params['totalKm'];	
+	    $model->origin = $params['origin'];  
+	    $model->destination = $params['destination'];       
 	    if ($model->save()) {      
 	    	$this->setHeader(200);
 	    	echo json_encode(array('status'=>"success"),JSON_PRETTY_PRINT);        
@@ -158,13 +162,14 @@ class LtripController extends \yii\web\Controller
  	}
  	public function actionAdvance() {  
 	    $post = file_get_contents("php://input");	   
-	    $params = json_decode($post, true);	   	    
+	    $params = json_decode($post, true);	  
+
 	    $model = $this->findModel($params[0]['tripId']); 
 	    $model->trip_advance = $params['amount'];    
 	    if ($model->save()) {
 			    $pay = new Dpayment();
 			    $pay->driver_id = $params[0]['driverId'];  
-    			$pay->mode = $params['payMode'];   
+    			$pay->mode = $params['payMode']['name'];   
     			$pay->amount = $params['amount']; 
     			if($pay->mode == 'account') {
     				$pay->dbank_id = $params[0]['bankId'];  
@@ -172,7 +177,7 @@ class LtripController extends \yii\web\Controller
     			$pay->date = date('Y-m-d', strtotime($params['fillDate']));
     			$pay->for = 'adv'; 
     			$pay->trip_id = $params[0]['tripId']; 
-			   	$pay->save();			   
+			  $pay->save();		   
 
 
 			    $total = $this->sumOfAdvance($model->trip_id); 
@@ -181,9 +186,16 @@ class LtripController extends \yii\web\Controller
         		$modeltrip->save(); 
         	
 			    $modelExp = $this->findModel($model->trip_id); 
-           		$modelExp->totalexpense =  $this->findSumOfExp($model->trip_id);
-           		$modelExp->save();
+           		//$modelExp->totalexpense =  $this->findSumOfExp($model->trip_id);
+           		
 
+
+           		$amt = $this->findSumOfExp($modelExp->trip_id);
+            $pro = $modelExp->frieght;
+         
+           $modelExp->totalexpense = $amt ;
+           $modelExp->trip_profit = $pro - $amt;
+           $modelExp->save();
 	    	$this->setHeader(200);
 	    	echo json_encode(array('status'=>"success"),JSON_PRETTY_PRINT);        
 	    } 
@@ -238,10 +250,20 @@ class LtripController extends \yii\web\Controller
 	     	echo json_encode(array('status'=>"error",'data'=>array_filter($model->errors)),JSON_PRETTY_PRINT);
 	    }     
   	}   
- 	public function actionDeleteLtrip($id) {           
+ 	public function actionDeleteLtrip($id) { 
+
+ 		$this->deleteExpense($id); 
+ 		$this->deleteLpay($id); 
+ 		$this->deleteDpay($id); 
+ 		$this->deleteDiesel($id);          
 	    $model = new Ltrip();
-	    $model = $this->findModel($id);  	     
-	    if ($model->delete()) {      
+	    $model = $this->findModel($id); 
+	    $vehicle = $this->findVehicle($model->vehicle_id); 
+	    $vehicle->ltrip = 0;
+	    $vehicle->save();  	     
+	    if ($model->delete()) { 
+
+
 	      	$this->setHeader(200);
 	      	echo json_encode(array('status'=>"success"),JSON_PRETTY_PRINT);        
 	    } 
@@ -272,6 +294,46 @@ class LtripController extends \yii\web\Controller
 	    $models = $command->queryAll();  
 	    return $models;
 	}
+	protected function deleteExpense($id) { 
+	    if (($model = Yii::$app->db->createCommand("DELETE FROM lexpense WHERE trip_id = $id")->execute()) !== null) {
+	    return $model;     
+	    }
+	    else {
+	      $this->setHeader(400);
+	      echo json_encode(array('status'=>"error",'data'=>array('message'=>'Bad request')),JSON_PRETTY_PRINT);
+	      exit;
+	    }
+  	}
+  	protected function deleteDiesel($id) { 
+	    if (($model = Yii::$app->db->createCommand("DELETE FROM ldiesel WHERE trip_id = $id")->execute()) !== null) {
+	    return $model;     
+	    }
+	    else {
+	      $this->setHeader(400);
+	      echo json_encode(array('status'=>"error",'data'=>array('message'=>'Bad request')),JSON_PRETTY_PRINT);
+	      exit;
+	    }
+  	}
+  	protected function deleteLpay($id) { 
+	    if (($model = Yii::$app->db->createCommand("DELETE FROM lpayment WHERE trip_id = $id")->execute()) !== null) {
+	    return $model;     
+	    }
+	    else {
+	      $this->setHeader(400);
+	      echo json_encode(array('status'=>"error",'data'=>array('message'=>'Bad request')),JSON_PRETTY_PRINT);
+	      exit;
+	    }
+  	}
+  		protected function deleteDpay($id) { 
+	    if (($model = Yii::$app->db->createCommand("DELETE FROM dpayment WHERE trip_id = $id")->execute()) !== null) {
+	    return $model;     
+	    }
+	    else {
+	      $this->setHeader(400);
+	      echo json_encode(array('status'=>"error",'data'=>array('message'=>'Bad request')),JSON_PRETTY_PRINT);
+	      exit;
+	    }
+  	}
 	protected function findVehicle($id) { 
     if (($model = Vehicle::findOne(['vehicle_id' => $id])) !== null) {
       return $model;
